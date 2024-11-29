@@ -1,3 +1,13 @@
+set autocommit=0;
+start transaction;
+
+DROP TABLE IF EXISTS Participer;
+DROP TABLE IF EXISTS Commentaire;
+DROP TABLE IF EXISTS Rencontre;
+DROP TABLE IF EXISTS Authentification;
+DROP TABLE IF EXISTS Joueur;
+
+
 -- Table Joueur
 CREATE TABLE Joueur (
     num_licence CHAR(13) PRIMARY KEY,
@@ -44,3 +54,12 @@ CREATE TABLE Participer (
     FOREIGN KEY (num_licence) REFERENCES Joueur(num_licence) ON DELETE CASCADE,
     FOREIGN KEY (date_heure) REFERENCES Rencontre(date_heure) ON DELETE CASCADE
 );
+
+-- Insertion des données de test dans Authentification
+INSERT INTO Authentification (login, password)
+VALUES 
+('admin', 'admin'),
+('Coach', 'Carter'),
+('Onesta', 'Claude');
+
+COMMIT;
