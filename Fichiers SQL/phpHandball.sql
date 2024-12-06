@@ -40,7 +40,7 @@ CREATE TABLE Rencontre (
 -- Table Authentification
 CREATE TABLE Authentification (
     login VARCHAR(50) PRIMARY KEY,
-    password VARCHAR(50) NOT NULL
+    password VARCHAR(100) NOT NULL
 );
 
 -- Table Participer
