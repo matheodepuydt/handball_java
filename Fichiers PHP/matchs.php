@@ -1,7 +1,7 @@
-<h1>Matchs</h1>
 
 
 <?php
+include('header.php'); 
 session_start();
 if (isset($_SESSION['user'])) {
     echo "Salut, " . $_SESSION['user'];
