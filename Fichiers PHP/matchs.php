@@ -1,3 +1,6 @@
+<h1>Matchs</h1>
+
+
 <?php
 session_start();
 if (isset($_SESSION['user'])) {
