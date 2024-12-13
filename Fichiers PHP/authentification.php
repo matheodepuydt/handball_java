@@ -1,9 +1,100 @@
-<h1>Authentification</h1>
-<form action="authentification.php" method="post">
-    Nom d'utilisateur : <input type="text" name="login" required><br/>
-    Mot de passe  : <input type="password" name="password" required><br/>
-    <input type="submit" name="seConnecter" value="Se connecter"><br/><br/>
-</form>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentification</title>
+    <style>
+        /* Style global */
+        body-authentification {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #444444, #777);
+            color: #fff;
+        }
+
+        /* Conteneur principal */
+        .auth-container {
+            background-color: #2c2c2c;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .auth-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #ffffff;
+        }
+
+        /* Style du formulaire */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+        }
+
+        input[type="submit"] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #777;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #999;
+        }
+
+        .error-message {
+            color: #ff4d4d;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body name="body-authentification">
+    <div class="auth-container">
+        <h1>Authentification</h1>
+        <form action="authentification.php" method="post">
+            <label for="login">Nom d'utilisateur :</label>
+            <input type="text" id="login" name="login" required>
+
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password" required>
+
+            <input type="submit" name="seConnecter" value="Se connecter">
+
+            <!-- Zone d'erreur, remplacez dynamiquement avec PHP si nécessaire -->
+            <!-- <div class="error-message">Nom d'utilisateur ou mot de passe incorrect.</div> -->
+        </form>
+    </div>
+</body>
+</html>
 
 <?php
 
