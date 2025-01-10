@@ -1,5 +1,5 @@
 <?php
-    require('page_joueursControleur.php');
+    /*require '../Controleur/page_joueursControleur.php';*/
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +13,7 @@
 <body>
     <?php
     session_start();
-    include(__DIR__ . '/Fichiers_HTML_CSS/header.html');
+    include('../static/header.html');
     ?>
 
     <div>
@@ -51,13 +51,14 @@
                                 <td><input type='hidden' name='statut' value='{$joueur[5]}'>{$joueur[5]}</td>
                                 <td><input type='hidden' name='licence' value='{$joueur[6]}'>{$joueur[6]}</td>
                                 <td><button type='submit' name='commentaire'>Ajouter un commentaire</button></td>
+                                <td><button type='submit' name='supprimer'>Supprimer</button></td>
                             </form>
                           </tr>";
                 }
                 ?>
             </tbody>
         </table>
-            <div class="zone_boutons">
+            <div>
                 <input type="button" value="Ajouter" />
             </div>
     </div>
