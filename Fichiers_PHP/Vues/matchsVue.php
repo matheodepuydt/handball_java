@@ -1,5 +1,5 @@
 <?php
-include('static/header.html');
+include('../static/header.html');  
 session_start();
 
 ?>
