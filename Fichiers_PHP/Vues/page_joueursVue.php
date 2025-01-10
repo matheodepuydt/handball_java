@@ -1,5 +1,5 @@
 <?php
-    /*require '../Controleur/page_joueursControleur.php';*/
+    require '../Controleurs/page_joueursControleur.php';
 ?>
 
 <!DOCTYPE html>
@@ -8,9 +8,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Joueurs</title>
-    <link rel="stylesheet" href="/Projet PHP/php_handball/Fichiers_PHP/static/style.css">
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
+
     <?php
     session_start();
     include('../static/header.html');
@@ -35,10 +36,8 @@
             </thead>
             <tbody>
                 <?php
-                $joueurs = [
-                    ["Durand", "Michel", 26, 181, 76, "Actif", "1852647852312"],
-                    ["Martin", "Claire", 30, 165, 60, "Inactif", "6789012345"],
-                ];
+                $controleur = new controleurJoueurs();
+                $joueurs = $controleur->getAllJoueurs();
 
                 foreach ($joueurs as $joueur) {
                     echo "<tr>
