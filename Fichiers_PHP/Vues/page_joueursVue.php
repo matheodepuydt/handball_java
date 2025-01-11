@@ -57,7 +57,9 @@
             </tbody>
         </table>
             <div>
-                <input type="button" value="Ajouter" />
+                <a href="ajouterJoueurVue.php">
+                    <input type="button" value="Ajouter"/>
+                </a>
             </div>
     </div>
 </body>
