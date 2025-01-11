@@ -9,7 +9,7 @@ class Joueur {
     private $num_licence;
     private $statut;
 
-    public function Joueur($nom,$prenom,$date_de_naissance,$taille,$poids,$num_licence,$statut) {
+    public function __construct($nom,$prenom,$date_de_naissance,$taille,$poids,$num_licence,$statut) {
         $this->nom = $nom;
         $this->prenom = $prenom;
         $this->date_de_naissance = $date_de_naissance;
@@ -27,7 +27,7 @@ class Joueur {
         return $this->prenom;
     }
 
-    public function getdDate_de_naissance(){
+    public function getDate_de_naissance(){
         return $this->date_de_naissance;
     }
 
