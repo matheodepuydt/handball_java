@@ -26,12 +26,11 @@
                 <tr>
                     <th>Nom</th>
                     <th>Prénom</th>
-                    <th>Âge</th>
+                    <th>Date de naissance</th>
                     <th>Taille</th>
                     <th>Poids</th>
                     <th>Statut</th>
                     <th>Numéro de licence</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,13 +41,13 @@
                 foreach ($joueurs as $joueur) {
                     echo "<tr>
                             <form method='POST' action=''>
-                                <td><input type='hidden' name='nom' value='{$joueur[0]}'>{$joueur[0]}</td>
-                                <td><input type='hidden' name='prenom' value='{$joueur[1]}'>{$joueur[1]}</td>
-                                <td><input type='hidden' name='age' value='{$joueur[2]}'>{$joueur[2]}</td>
-                                <td><input type='hidden' name='taille' value='{$joueur[3]}'>{$joueur[3]}</td>
-                                <td><input type='hidden' name='poids' value='{$joueur[4]}'>{$joueur[4]}</td>
-                                <td><input type='hidden' name='statut' value='{$joueur[5]}'>{$joueur[5]}</td>
-                                <td><input type='hidden' name='licence' value='{$joueur[6]}'>{$joueur[6]}</td>
+                                <td><input type='hidden' name='nom' value='{$joueur['nom']}'>{$joueur['nom']}</td>
+                                <td><input type='hidden' name='prenom' value='{$joueur['prenom']}'>{$joueur['prenom']}</td>
+                                <td><input type='hidden' name='date_de_naissance' value='{$joueur['date_de_naissance']}'>{$joueur['date_de_naissance']}</td>
+                                <td><input type='hidden' name='taille' value='{$joueur['taille']}'>{$joueur['taille']}</td>
+                                <td><input type='hidden' name='poids' value='{$joueur['poids']}'>{$joueur['poids']}</td>
+                                <td><input type='hidden' name='statut' value='{$joueur['statut']}'>{$joueur['statut']}</td>
+                                <td><input type='hidden' name='licence' value='{$joueur['num_licence']}'>{$joueur['num_licence']}</td>
                                 <td><button type='submit' name='commentaire'>Ajouter un commentaire</button></td>
                                 <td><button type='submit' name='supprimer'>Supprimer</button></td>
                             </form>
