@@ -35,7 +35,8 @@
         $controleur = new controleurAjouterJoueur();
 
         $controleur->addJoueur($joueur);
-
+        header("Location: page_joueursVue.php");
+        exit(); // Important pour arrêter l'exécution après la redirection
     }
     ?>
     <h1>Ajouter un joueur</h1>
