@@ -8,11 +8,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
     <title>Ajouter joueur</title>
 </head>
 <body>
     <?php
-    include('../static/header.html');  
+    include('../static/header.html');
     session_start();
     
 
@@ -39,46 +40,43 @@
         exit(); // Important pour arrêter l'exécution après la redirection
     }
     ?>
+    <div class="form-ajouter-joueur-container">
     <h1>Ajouter un joueur</h1>
-        <form action="" method="post">
-            <div>
-                <label for="name">Nom :</label>
-                <input type="text" name="nom" id="nom" required />
-            </div>
-            <div>
-                <label for="prenom">Prénom :</label>
-                <input type="text" name="prenom" id="prenom" required />
-            </div>
-            <div>
-                <label for="date_de_naissance">Date de naissance :</label>
-                <input type="date" name="date_de_naissance" id="date_de_naissance">
-            </div>
-            <div>
-                <label for="taille">Taille :</label>
-                <input type="number" name="taille" id="taille"> cm
-            </div>
-            <div>
-                <label for="poids">Poids :</label>
-                <input type="number" name="poids" id="poids"> kg
-            </div>
-            <div>
-                <label for="num_licence">Numéro de licence :</label>
-                <input type="text" name="num_licence" id="num_licence" required />
-            </div>
-            <label for="statut">Statut :</label>
-                <select name="statut" id="statut">
-                    <option value="actif">Actif</option>
-                    <option value="blesse">Blessé</option>
-                    <option value="suspendu">Suspendu</option>
-                    <option value="absent">Absent</option>
-                </select>
-            <div>
-                <input type="submit" value="Valider" />
-                <a href="page_joueursVue.php">
-                    <input type="button" value="Annuler" />
-                </a>
+    <form action="" method="post">
+        <label class="label-ajouter-joueur" for="nom">Nom :</label>
+        <input class="input-ajouter-joueur" type="text" name="nom" id="nom" required />
 
-            </div>
-        </form>
+        <label class="label-ajouter-joueur" for="prenom">Prénom :</label>
+        <input class="input-ajouter-joueur" type="text" name="prenom" id="prenom" required />
+
+        <label class="label-ajouter-joueur" for="date_de_naissance">Date de naissance :</label>
+        <input class="input-ajouter-joueur" type="date" name="date_de_naissance" id="date_de_naissance" />
+
+        <label class="label-ajouter-joueur" for="taille">Taille (cm) :</label>
+        <input class="input-ajouter-joueur" type="number" name="taille" id="taille" />
+
+        <label class="label-ajouter-joueur" for="poids">Poids (kg) :</label>
+        <input class="input-ajouter-joueur" type="number" name="poids" id="poids" />
+
+        <label class="label-ajouter-joueur" for="num_licence">Numéro de licence :</label>
+        <input class="input-ajouter-joueur" type="text" name="num_licence" id="num_licence" required />
+
+        <label class="label-ajouter-joueur" for="statut">Statut :</label>
+        <select class="select-ajouter-joueur" name="statut" id="statut">
+            <option value="actif">Actif</option>
+            <option value="blesse">Blessé</option>
+            <option value="suspendu">Suspendu</option>
+            <option value="absent">Absent</option>
+        </select>
+
+        <div class="actions-ajouter-joueur">
+            <input class="input-ajouter-joueur" type="submit" value="Valider" />
+            <a href="page_joueursVue.php">
+                <input class="input-ajouter-joueur" type="button" value="Annuler" />
+            </a>
+        </div>
+    </form>
+</div>
+
 </body>
 </html>
