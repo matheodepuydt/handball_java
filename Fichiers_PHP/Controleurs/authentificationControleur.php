@@ -1,4 +1,7 @@
 <?php
+
+require_once 'connectionBD.php';
+
 class authentificationControleur{
 
     /**
@@ -13,7 +16,7 @@ class authentificationControleur{
         $db = connectionBD::getInstance()->getConnection();
 
         // Préparation de la requête
-        $stmt = $this->linkpdo->prepare('SELECT password FROM authentification WHERE login = :login');
+        $stmt = $db->prepare('SELECT password FROM authentification WHERE login = :login');
         $stmt->bindParam(':login', $login, PDO::PARAM_STR);
         $stmt->execute();
         

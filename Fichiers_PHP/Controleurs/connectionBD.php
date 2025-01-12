@@ -26,11 +26,11 @@ class connectionBD {
 
     /**
      * Méthode pour récupérer l'instance unique de la classe
-     * @return Database
+     * @return connectionBD
      */
     public static function getInstance() {
         if (self::$instance === null) {
-            self::$instance = new Database();
+            self::$instance = new connectionBD();
         }
         return self::$instance;
     }
@@ -47,10 +47,5 @@ class connectionBD {
      * Empêche le clonage de l'objet
      */
     private function __clone() {}
-
-    /**
-     * Empêche la désérialisation de l'objet
-     */
-    private function __wakeup() {}
 }
 ?>
