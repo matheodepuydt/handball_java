@@ -256,17 +256,17 @@ body {
   background-color: #f1f1f1;
 }
 
-.players-table button[type="button"] {
+.players-table button[type="button"], input[type="submit"] {
   background-color: #007bff;
   border: none;
-  padding: 5px 15px;
+  padding: 5px 10px;
   color: white;
   font-size: 1rem;
   cursor: pointer;
   border-radius: 5px;
 }
 
-.players-table button[type="button"]:hover {
+.players-table button[type="button"]:hover, input[type="submit"]:hover {
   background-color: #0056b3;
 }
 
@@ -288,4 +288,21 @@ body {
 
 .add-player-section input[type="button"]:hover {
   background-color: #0056b3;
+}
+
+.supp {
+  background-color: #808080;
+  width: 100%;
+  border: none;
+  padding: 5px 10px;
+  margin: 15px;
+  margin-left: 0%;
+  color: white;
+  font-size: 1.2cap;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.supp:hover {
+  background-color: #5a5a5a;
 }

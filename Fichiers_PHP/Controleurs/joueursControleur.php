@@ -2,7 +2,6 @@
 
 class controleurJoueurs{
     
-    
     private $server = 'localhost';
     private $bd = 'phphandball';
     private $db_login = 'admin';

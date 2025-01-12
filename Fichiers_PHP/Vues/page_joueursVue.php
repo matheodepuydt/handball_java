@@ -53,8 +53,14 @@
                                     <button type='button'>Modifier</button>
                                 </a>
                             </td>
-                            <td><button type='submit' name='commentaire'>Ajouter un commentaire</button></td>                                
-                            <td><button type='submit' name='supprimer'>Supprimer</button></td>
+                            <td>
+                                <button type='submit' name='commentaire'>Ajouter un commentaire</button>
+                            </td>                                
+                            <td>
+                                <a href='supprimerJoueurVue.php?licence={$numLicence}'>
+                                    <button type='button'>Supprimer</button>
+                                </a>
+                            </td>
                           </tr>";
                 }
                 ?>
