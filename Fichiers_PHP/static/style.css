@@ -290,6 +290,8 @@ body {
   background-color: #0056b3;
 }
 
+/*Page confirmation de suppression de joueur*/
+
 .supp {
   background-color: #808080;
   width: 100%;
@@ -305,4 +307,9 @@ body {
 
 .supp:hover {
   background-color: #5a5a5a;
+}
+
+/*Commentaire*/
+textarea {
+  resize: none;
 }
