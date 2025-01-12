@@ -1,9 +1,8 @@
 <?php
 
-require '../classes/joueur.php';
-
-class controleurModifierJoueur{
-
+class controleurJoueurs{
+    
+    
     private $server = 'localhost';
     private $bd = 'phphandball';
     private $db_login = 'admin';
@@ -26,6 +25,21 @@ class controleurModifierJoueur{
                 die('Erreur de connexion : ' . $e->getMessage());
             }
         }
+    }
+    
+    public function getAllJoueurs(){
+
+        if (!$this->linkpdo) {
+            $this->connectionBD();
+        }
+
+        // Préparation de la requête
+        $stmt = $this->linkpdo->prepare('SELECT * FROM joueur');
+        $stmt->execute();
+        
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $result;
     }
 
     public function getJoueur($num_licence){
@@ -59,6 +73,29 @@ class controleurModifierJoueur{
             ':nom' => $joueur->getNom(),
             ':prenom' => $joueur->getPrenom(),
             ':date_de_naissance' => $joueur->getDate_de_naissance(),
+            ':taille' => $joueur->getTaille(),
+            ':poids' => $joueur->getPoids(),
+            ':num_licence' => $joueur->getNum_licence(),
+            ':statut' => $joueur->getStatut()
+        ]);
+
+    }
+
+    public function addJoueur(Joueur $joueur){
+        if (!$this->linkpdo) {
+            $this->connectionBD();
+        }
+
+        // Préparation de la requête
+        $stmt = $this->linkpdo->prepare('
+            INSERT INTO joueur (num_licence, nom, prenom, date_de_naissance, taille, poids, statut) 
+            VALUES (:num_licence, :nom, :prenom, :date_naissance, :taille, :poids, :statut)
+        ');
+
+        $stmt->execute([
+            ':nom' => $joueur->getNom(),
+            ':prenom' => $joueur->getPrenom(),
+            ':date_naissance' => $joueur->getDate_de_naissance(),
             ':taille' => $joueur->getTaille(),
             ':poids' => $joueur->getPoids(),
             ':num_licence' => $joueur->getNum_licence(),

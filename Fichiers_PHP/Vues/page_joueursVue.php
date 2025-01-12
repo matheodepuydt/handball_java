@@ -1,5 +1,5 @@
 <?php
-    require '../Controleurs/page_joueursControleur.php';
+    require '../Controleurs/joueursControleur.php';
 ?>
 
 <!DOCTYPE html>
@@ -27,8 +27,8 @@
                     <th>Nom</th>
                     <th>Prénom</th>
                     <th>Date de naissance</th>
-                    <th>Taille</th>
-                    <th>Poids</th>
+                    <th>Taille(cm)</th>
+                    <th>Poids(kg)</th>
                     <th>Statut</th>
                     <th>Numéro de licence</th>
                 </tr>

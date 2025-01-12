@@ -1,6 +1,6 @@
 <?php
     //require '../classes/joueur.php';
-    require '../Controleurs/ajouterJoueurControleur.php';
+    require '../Controleurs/joueursControleur.php';
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +33,7 @@
         $statut = htmlspecialchars($_POST['statut']);
 
         $joueur = new Joueur($nom,$prenom,$date_de_naissance,$taille,$poids,$num_licence,$statut);
-        $controleur = new controleurAjouterJoueur();
+        $controleur = new controleurJoueurs();
 
         $controleur->addJoueur($joueur);
         header("Location: page_joueursVue.php");

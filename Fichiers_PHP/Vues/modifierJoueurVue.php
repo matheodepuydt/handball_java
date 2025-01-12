@@ -1,6 +1,6 @@
 <?php
     //require '../classes/joueur.php';
-    require '../Controleurs/modifierJoueurControleur.php';
+    require '../Controleurs/joueursControleur.php';
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +29,7 @@
         $numLicence = htmlspecialchars($_POST['num_licence']);
 
         $joueur = new Joueur($nom,$prenom,$date_de_naissance,$taille,$poids,$numLicence,$statut);
-        $controleur = new controleurModifierJoueur();
+        $controleur = new controleurJoueurs();
 
         $controleur->modifierJoueur($joueur);
         header("Location: page_joueursVue.php");
@@ -40,11 +40,9 @@
     if (isset($_GET['licence'])) {
         $numLicence = htmlspecialchars($_GET['licence']);
 
-        $controleur = new controleurModifierJoueur();
+        $controleur = new controleurJoueurs();
         $joueur = $controleur->getJoueur($numLicence);
 
-        // Utilisez ce numéro de licence pour récupérer les informations du joueur
-        echo "Modification du joueur avec la licence : $numLicence";
     }
     ?>
     <div class='form-ajouter-joueur-container'>
