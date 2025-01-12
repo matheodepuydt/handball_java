@@ -50,7 +50,7 @@
                             <td>{$joueur['num_licence']}</td>
                             <td>
                                 <a href='modifierJoueurVue.php?licence={$numLicence}'>
-                                    <button type='button'>Modifier le joueur</button>
+                                    <button type='button'>Modifier</button>
                                 </a>
                             </td>
                             <td><button type='submit' name='commentaire'>Ajouter un commentaire</button></td>                                
