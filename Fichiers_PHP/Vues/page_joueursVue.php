@@ -39,14 +39,20 @@
                 $joueurs = $controleur->getAllJoueurs();
 
                 foreach ($joueurs as $joueur) {
+                    $numLicence = $joueur['num_licence'];
                     echo "<tr>
-                            <td><input type='hidden' name='nom' value='{$joueur['nom']}'>{$joueur['nom']}</td>
-                            <td><input type='hidden' name='prenom' value='{$joueur['prenom']}'>{$joueur['prenom']}</td>
-                            <td><input type='hidden' name='date_de_naissance' value='{$joueur['date_de_naissance']}'>{$joueur['date_de_naissance']}</td>
-                            <td><input type='hidden' name='taille' value='{$joueur['taille']}'>{$joueur['taille']}</td>
-                            <td><input type='hidden' name='poids' value='{$joueur['poids']}'>{$joueur['poids']}</td>
-                            <td><input type='hidden' name='statut' value='{$joueur['statut']}'>{$joueur['statut']}</td>
-                            <td><input type='hidden' name='licence' value='{$joueur['num_licence']}'>{$joueur['num_licence']}</td>
+                            <td>{$joueur['nom']}</td>
+                            <td>{$joueur['prenom']}</td>
+                            <td>{$joueur['date_de_naissance']}</td>
+                            <td>{$joueur['taille']}</td>
+                            <td>{$joueur['poids']}</td>
+                            <td>{$joueur['statut']}</td>
+                            <td>{$joueur['num_licence']}</td>
+                            <td>
+                                <a href='modifierJoueurVue.php?licence={$numLicence}'>
+                                    <button type='button'>Modifier le joueur</button>
+                                </a>
+                            </td>
                             <td><button type='submit' name='commentaire'>Ajouter un commentaire</button></td>                                
                             <td><button type='submit' name='supprimer'>Supprimer</button></td>
                           </tr>";
