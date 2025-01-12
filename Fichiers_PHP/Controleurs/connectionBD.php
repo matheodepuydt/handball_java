@@ -1,5 +1,5 @@
 <?php
-class Database {
+class connectionBD {
     private static $instance = null;
     private $connection;
 

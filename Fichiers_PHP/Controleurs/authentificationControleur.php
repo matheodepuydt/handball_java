@@ -10,7 +10,7 @@ class authentificationControleur{
 
     public function verifyPasswordByLogin($login, $password){
 
-        $db = Database::getInstance()->getConnection();
+        $db = connectionBD::getInstance()->getConnection();
 
         // Préparation de la requête
         $stmt = $this->linkpdo->prepare('SELECT password FROM authentification WHERE login = :login');
