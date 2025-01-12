@@ -23,7 +23,7 @@ CREATE TABLE Joueur (
 CREATE TABLE Commentaire (
     num_licence CHAR(13),
     date_commentaire DATETIME NOT NULL,
-    description VARCHAR(50),
+    description VARCHAR(200),
     PRIMARY KEY (num_licence, date_commentaire),
     FOREIGN KEY (num_licence) REFERENCES Joueur(num_licence) ON DELETE CASCADE
 );
