@@ -1,5 +1,5 @@
 <?php
-public class Rencontre {
+class Rencontre {
 
     private $date_heure;
     private $nom_adversaire;
@@ -7,7 +7,7 @@ public class Rencontre {
     private $domicile;
     private $resultat;
 
-    public function Rencontre($date_heure,$nom_adversaire,$lieu,$domicile,$resultat){
+    public function __construct($date_heure,$nom_adversaire,$lieu,$domicile,$resultat){
         $this->date_heure=$date_heure;
         $this->nom_adversaire=$nom_adversaire;
         $this->lieu=$lieu;

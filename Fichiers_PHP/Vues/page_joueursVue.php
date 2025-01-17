@@ -16,7 +16,7 @@
     session_start();
     include('../static/header.html');
     ?>
-
+    
     <div class="players-page-container">
         <h1>Joueurs</h1>
         <label for="joueurs">Liste des joueurs :</label>

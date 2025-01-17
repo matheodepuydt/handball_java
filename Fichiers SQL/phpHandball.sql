@@ -30,7 +30,7 @@ CREATE TABLE Commentaire (
 
 -- Table Rencontre
 CREATE TABLE Rencontre (
-    date_heure DATETIME PRIMARY KEY,
+    date_heure VARCHAR(50) PRIMARY KEY,
     nom_adversaire VARCHAR(50) NOT NULL,
     lieu VARCHAR(50),
     domicile BOOLEAN NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE Authentification (
 -- Table Participer
 CREATE TABLE Participer (
     num_licence CHAR(13),
-    date_heure DATETIME,
+    date_heure VARCHAR(50),
     titulaire BOOLEAN NOT NULL,
     note TINYINT,
     poste VARCHAR(50),

@@ -1,5 +1,5 @@
 <?php
-
+require_once '../classes/rencontre.php';
 require_once 'connectionBD.php';
 
 class matchsControleur {
@@ -18,7 +18,7 @@ class matchsControleur {
         $stmt->execute();
 
         // Récupération du résultat de la requête
-        $result= stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result= $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // On crée un tableau pour stocker les données
         $matchs = [];
@@ -27,7 +27,7 @@ class matchsControleur {
         foreach ($result as $row){
             $matchs[] = new Rencontre(
                 $row['date_heure'],
-                $row['mon_adversaire'],
+                $row['nom_adversaire'],
                 $row['lieu'],
                 $row['domicile'],
                 $row['resultat']
@@ -54,7 +54,7 @@ class matchsControleur {
         $stmt->execute();
 
         // Récupération du résultat de la requête
-        $result = stmt->fetchall(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // On crée un nouvel Objet Rencontre avec le résulat de la requête et on le renvoie
         if ($result) {
@@ -84,12 +84,18 @@ class matchsControleur {
         $stmt = $db->prepare('INSERT  INTO Rencontre (date_heure, nom_adversaire, lieu, domicile, resultat)
         VALUES (:date_heure, :nom_adversaire,:lieu,:domicile,:resultat)');
 
+        $date_heure = $rencontre->getDate();
+        $nom_adversaire = $rencontre->getAdversaire();
+        $lieu = $rencontre->getLieu();
+        $domicile = $rencontre->getDomicile();
+        $resultat = $rencontre->getResultat();
+
         // On donne une valeur aux paramètres
-        $stmt->bindParam(':date_heure', $rencontre->getDate(), PDO::PARAM_STR);
-        $stmt->bindParam(':nom_adversaire', $rencontre->getAdversaire(), PDO::PARAM_STR);
-        $stmt->bindParam(':lieu', $rencontre->getLieu(), PDO::PARAM_STR);
-        $stmt->bindParam(':domicile', $rencontre->getDomicile(), PDO::PARAM_STR);
-        $stmt->bindParam(':resultat', $rencontre->getResultat(), PDO::PARAM_STR);
+        $stmt->bindParam(':date_heure', $date_heure, PDO::PARAM_STR);
+        $stmt->bindParam(':nom_adversaire', $nom_adversaire, PDO::PARAM_STR);
+        $stmt->bindParam(':lieu', $lieu, PDO::PARAM_STR);
+        $stmt->bindParam(':domicile', $domicile, PDO::PARAM_STR);
+        $stmt->bindParam(':resultat', $resultat, PDO::PARAM_STR);
 
         // On exécute la requête
         $stmt->execute();
@@ -105,16 +111,22 @@ class matchsControleur {
         $db = connectionBD::getInstance()->getConnection();
 
         // Préparation de la requête
-        $stmt = $bd->prepare('UPDATE Rencontre SET nom_adversaire = :nom_adversaire, lieu = :lieu
+        $stmt = $db->prepare('UPDATE Rencontre SET nom_adversaire = :nom_adversaire, lieu = :lieu
             domicile = :domicile, resultat = :resultat
             WHERE date_heure = :date_heure');
 
+        $date_heure = $rencontre->getDate();
+        $nom_adversaire = $rencontre->getAdversaire();
+        $lieu = $rencontre->getLieu();
+        $domicile = $rencontre->getDomicile();
+        $resultat = $rencontre->getResultat();
+
         // On donne une valeur aux paramètres
-        $stmt->bindParam(':date_heure', $rencontre->getDate(), PDO::PARAM_STR);
-        $stmt->bindParam(':nom_adversaire', $rencontre->getAdversaire(), PDO::PARAM_STR);
-        $stmt->bindParam(':lieu', $rencontre->getLieu(), PDO::PARAM_STR);
-        $stmt->bindParam(':domicile', $rencontre->getDomicile(), PDO::PARAM_STR);
-        $stmt->bindParam(':resultat', $rencontre->getResultat(), PDO::PARAM_STR);
+        $stmt->bindParam(':date_heure', $date_heure, PDO::PARAM_STR);
+        $stmt->bindParam(':nom_adversaire', $nom_adversaire, PDO::PARAM_STR);
+        $stmt->bindParam(':lieu', $lieu, PDO::PARAM_STR);
+        $stmt->bindParam(':domicile', $domicile, PDO::PARAM_STR);
+        $stmt->bindParam(':resultat', $resultat, PDO::PARAM_STR);
 
         // On exécute la requête
         $stmt->execute();
@@ -131,7 +143,7 @@ class matchsControleur {
         $db = connectionBD::getInstance()->getConnection();
 
         // Préparation de la requête
-        $stmt = $bd->prepare('DELETE FROM Rencontre WHERE date_heure = :date_heure');
+        $stmt = $db->prepare('DELETE FROM Rencontre WHERE date_heure = :date_heure');
 
         // On donne une valeur au paramètre
         $stmt->bindParam(':date_heure', $date_heure, PDO::PARAM_STR);
