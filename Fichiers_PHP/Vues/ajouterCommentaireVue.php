@@ -4,7 +4,8 @@ require '../Controleurs/joueursControleur.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $controleur = new controleurJoueurs();
     $numLicence = $_POST['licence'];
-    $controleur->deleteJoueur($numLicence);
+    $controleur->addCommentaire($numLicence,$_POST['commentaire']);
+
     header("Location: page_joueursVue.php");
     exit();
 }
@@ -20,17 +21,17 @@ if (isset($_GET['licence'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmer la suppression</title>
+    <title>Commentaire</title>
     <link rel="stylesheet" href="../static/style.css">
 </head>
 <body class='body-authentification'>
     <div class='authentification-container'>
-        <h1>Êtes-vous sûr de vouloir supprimer ce joueur ?</h1>
-        <p>Une fois supprimé, cette action ne pourra pas être annulée.</p>
-        <form action="supprimerJoueurVue.php" method="POST">
+        <h1>Ajouter un commentaire</h1>
+        <form action="ajouterCommentaireVue.php" method="POST">
             <div class='players-table'>
                 <input type="hidden" name="licence" value="<?php echo $numLicence; ?>" />
-                <input class='players-table' type="submit" value="Confirmer la suppression" />
+                <textarea name="commentaire" rows="7" cols="55" id="" maxlength="200"></textarea>
+                <input class='players-table' type="submit" value="Valider" />
                 <a href="page_joueursVue.php">
                     <input class='supp' type="button" value="Annuler" />
                 </a>

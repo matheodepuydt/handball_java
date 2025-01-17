@@ -94,6 +94,24 @@ class controleurJoueurs{
         // On exécute la requête
         $stmt->execute();
     }
+
+    public function addCommentaire($num_licence, $description) {
+
+        // Connection a la BDD
+        $db = connectionBD::getInstance()->getConnection();
+        $today = date("Y-m-d H:i:s");
+
+        // Préparation de la requête
+        $stmt = $db->prepare('INSERT INTO commentaire VALUES (:num_licence, :date_commentaire, :description_com)');
+
+        // On donne une valeur au paramètre
+        $stmt->bindParam(':num_licence', $num_licence, PDO::PARAM_STR);
+        $stmt->bindParam(':date_commentaire', $today, PDO::PARAM_STR);
+        $stmt->bindParam(':description_com', $description, PDO::PARAM_STR);
+
+        // On exécute la requête
+        $stmt->execute();
+    }
 }
 
 ?>

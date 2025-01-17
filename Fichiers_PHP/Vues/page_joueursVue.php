@@ -49,13 +49,15 @@
                             <td>{$joueur['statut']}</td>
                             <td>{$joueur['num_licence']}</td>
                             <td>
+                                <a href='ajouterCommentaireVue.php?licence={$numLicence}'>
+                                    <button type='button'>Ajouter un commentaire</button>
+                                </a>
+                            </td>
+                            <td>
                                 <a href='modifierJoueurVue.php?licence={$numLicence}'>
                                     <button type='button'>Modifier</button>
                                 </a>
                             </td>
-                            <td>
-                                <button type='submit' name='commentaire'>Ajouter un commentaire</button>
-                            </td>                                
                             <td>
                                 <a href='supprimerJoueurVue.php?licence={$numLicence}'>
                                     <button type='button'>Supprimer</button>
