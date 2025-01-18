@@ -1,5 +1,6 @@
 <?php
     require '../Controleurs/joueursControleur.php';
+    require '../classes/joueur.php'
 ?>
 
 <!DOCTYPE html>
@@ -42,15 +43,15 @@
                 $joueurs = $controleur->getAllJoueurs();
 
                 foreach ($joueurs as $joueur) {
-                    $numLicence = $joueur['num_licence'];
+                    $numLicence = $joueur->getNum_licence();
                     echo "<tr>
-                            <td>{$joueur['nom']}</td>
-                            <td>{$joueur['prenom']}</td>
-                            <td>{$joueur['date_de_naissance']}</td>
-                            <td>{$joueur['taille']}</td>
-                            <td>{$joueur['poids']}</td>
-                            <td>{$joueur['statut']}</td>
-                            <td>{$joueur['num_licence']}</td>
+                            <td>{$joueur->getNom()}</td>
+                            <td>{$joueur->getPrenom()}</td>
+                            <td>{$joueur->getDate_de_naissance()}</td>
+                            <td>{$joueur->getTaille()}</td>
+                            <td>{$joueur->getPoids()}</td>
+                            <td>{$joueur->getStatut()}</td>
+                            <td>{$joueur->getNum_licence()}</td>
                             <td>
                                 <a href='ajouterCommentaireVue.php?licence={$numLicence}'>
                                     <button type='button'>Ajouter un commentaire</button>

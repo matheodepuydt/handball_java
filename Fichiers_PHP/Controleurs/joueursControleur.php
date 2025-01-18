@@ -13,8 +13,20 @@ class controleurJoueurs{
         $stmt->execute();
         
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($result as $row){
+            $joueur[] = new Joueur(
+                $row['nom'],
+                $row['prenom'],
+                $row['date_de_naissance'],
+                $row['taille'],
+                $row['poids'],
+                $row['num_licence'],
+                $row['statut']
+            );
+        }
         
-        return $result;
+        return $joueur;
     }
 
     public function getJoueur($num_licence){
