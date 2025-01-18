@@ -33,6 +33,7 @@
                     <th>Numéro de licence</th>
                     <th></th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
