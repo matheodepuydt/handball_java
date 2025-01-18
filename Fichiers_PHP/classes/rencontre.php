@@ -28,7 +28,10 @@ class Rencontre {
     }
 
     public function getDomicile(){
-        return $this->domicile;
+        if ($this->domicile == 1) {
+            return "Domicile";
+        }
+        return "Exterieur";
     }
 
     public function getResultat(){

@@ -25,7 +25,6 @@
 
             // Récupération des données du formulaire en toute sécurité
             $date_heure = htmlspecialchars($_POST['date_heure']);
-            var_dump($date_heure);
             $nom_adversaire = htmlspecialchars($_POST['nom_adversaire']);
             $lieu = htmlspecialchars($_POST['lieu']);
             $domicile = htmlspecialchars($_POST['domicile']);
@@ -52,7 +51,7 @@
         <form action='' method='post'>
 
             <label class='label-ajouter-match' for='date_heure'>Date et Heure :</label>
-            <input class="input-ajouter-match" type="text" name="date_heure" id="date_heure" value=
+            <input class="input-ajouter-match" type="datetime-local" name="date_heure" id="date_heure" value=
                 '<?php echo htmlspecialchars($date_heure); ?>' required />
 
 

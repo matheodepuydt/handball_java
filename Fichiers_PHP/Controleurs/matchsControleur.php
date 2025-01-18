@@ -60,7 +60,7 @@ class matchsControleur {
         if ($result) {
             return new Rencontre(
                 $result['date_heure'],
-                $result['mon_adversaire'],
+                $result['nom_adversaire'],
                 $result['lieu'],
                 $result['domicile'],
                 $result['resultat']
@@ -111,7 +111,7 @@ class matchsControleur {
         $db = connectionBD::getInstance()->getConnection();
 
         // Préparation de la requête
-        $stmt = $db->prepare('UPDATE Rencontre SET nom_adversaire = :nom_adversaire, lieu = :lieu
+        $stmt = $db->prepare('UPDATE Rencontre SET nom_adversaire = :nom_adversaire, lieu = :lieu,
             domicile = :domicile, resultat = :resultat
             WHERE date_heure = :date_heure');
 

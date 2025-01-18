@@ -26,6 +26,8 @@
                 <th>lieu</th>
                 <th>Domicile/ Exterieur</th>
                 <th>Résultat</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
