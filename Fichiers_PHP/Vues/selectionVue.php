@@ -57,7 +57,7 @@
                                 </a>
                             </td>
                             <td>
-                                <a href='modifierJoueurVue.php?licence={$numLicence}'>
+                                <a href='feuilleDeMatchVue.php?licence={$numLicence}'>
                                     <button type='button'>Choisir</button>
                                 </a>
                             </td>

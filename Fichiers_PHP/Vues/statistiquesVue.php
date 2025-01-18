@@ -60,7 +60,7 @@
                     $poste = $controleur->getPostePrefereJoueur($numLicence);
                     $titularisation = $controleur->getNbTitularisations($numLicence);
                     $remplacements = $controleur->getNbRemplacements($numLicence);
-                    $moyenne = $controleur->getMoyenneNote($numLicence);
+                    $moyenne =round($controleur->getMoyenneNote($numLicence),1);
                     echo "<tr>
                             <td>{$joueur['nom']}</td>
                             <td>{$joueur['prenom']}</td>
