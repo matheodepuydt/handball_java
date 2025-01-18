@@ -29,6 +29,31 @@ class controleurJoueurs{
         return $joueur;
     }
 
+    public function getAllActifs(){
+
+        $db = connectionBD::getInstance()->getConnection();
+
+        // Préparation de la requête
+        $stmt = $db->prepare('SELECT * FROM joueur where statut = "Actif"');
+        $stmt->execute();
+        
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($result as $row){
+            $joueur[] = new Joueur(
+                $row['nom'],
+                $row['prenom'],
+                $row['date_de_naissance'],
+                $row['taille'],
+                $row['poids'],
+                $row['num_licence'],
+                $row['statut']
+            );
+        }
+        
+        return $joueur;
+    }
+
     public function getJoueur($num_licence){
 
         $db = connectionBD::getInstance()->getConnection();
@@ -147,6 +172,25 @@ class controleurJoueurs{
         // On exécute la requête
         $stmt->execute();
     }
+
+    public function getCommentaires($num_licence) {
+        $db = connectionBD::getInstance()->getConnection();
+    
+        $stmt = $db->prepare('SELECT * FROM commentaire WHERE num_licence = :num_licence');
+        $stmt->execute([':num_licence' => $num_licence]);
+    
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $commentaires = [];
+        
+        foreach ($result as $row) {
+            $commentaire = new Commentaire($row['description'], $row['date_commentaire']);
+            $commentaires[] = $commentaire;
+        }
+    
+        return $commentaires;
+    }
+    
 }
 
 ?>

@@ -33,11 +33,7 @@
                 <tr>
                     <th>Nom</th>
                     <th>Prénom</th>
-                    <th>Date de naissance</th>
-                    <th>Taille(cm)</th>
-                    <th>Poids(kg)</th>
-                    <th>Statut</th>
-                    <th>Numéro de licence</th>
+                    <th>Poste</th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -45,75 +41,13 @@
             </thead>
             <tbody>
                 <?php
-                $controleur = new controleurJoueurs();
-                $joueurs = $controleur->getAllJoueurs();
+                $titulaires = [];
 
-                foreach ($joueurs as $joueur) {
+                foreach ($titulaires as $joueur) {
                     $numLicence = $joueur['num_licence'];
                     echo "<tr>
-                            <td>{$joueur['nom']}</td>
-                            <td>{$joueur['prenom']}</td>
-                            <td>{$joueur['date_de_naissance']}</td>
-                            <td>{$joueur['taille']}</td>
-                            <td>{$joueur['poids']}</td>
-                            <td>{$joueur['statut']}</td>
-                            <td>{$joueur['num_licence']}</td>
-                            <td>
-                                <a href='ajouterCommentaireVue.php?licence={$numLicence}'>
-                                    <button type='button'>Ajouter un commentaire</button>
-                                </a>
-                            </td>
-                            <td>
-                                <a href='modifierJoueurVue.php?licence={$numLicence}'>
-                                    <button type='button'>Modifier</button>
-                                </a>
-                            </td>
-                            <td>
-                                <a href='supprimerJoueurVue.php?licence={$numLicence}'>
-                                    <button type='button'>Supprimer</button>
-                                </a>
-                            </td>
-                          </tr>";
-                }
-                ?>
-            </tbody>
-        </table>
-
-        <br>
-        <br>
-
-        <label for="joueurs">Remplaçants :</label>
-
-        <table class="players-table">
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Date de naissance</th>
-                    <th>Taille(cm)</th>
-                    <th>Poids(kg)</th>
-                    <th>Statut</th>
-                    <th>Numéro de licence</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $controleur = new controleurJoueurs();
-                $joueurs = $controleur->getAllJoueurs();
-
-                foreach ($joueurs as $joueur) {
-                    $numLicence = $joueur['num_licence'];
-                    echo "<tr>
-                            <td>{$joueur['nom']}</td>
-                            <td>{$joueur['prenom']}</td>
-                            <td>{$joueur['date_de_naissance']}</td>
-                            <td>{$joueur['taille']}</td>
-                            <td>{$joueur['poids']}</td>
-                            <td>{$joueur['statut']}</td>
-                            <td>{$joueur['num_licence']}</td>
+                            <td>{$joueur->getNom()}</td>
+                            <td>{$joueur->getPrenom()}</td>
                             <td>
                                 <a href='ajouterCommentaireVue.php?licence={$numLicence}'>
                                     <button type='button'>Ajouter un commentaire</button>
@@ -135,7 +69,57 @@
             </tbody>
         </table>
             <div class="add-player-section">
-                <a href="ajouterJoueurVue.php">
+                <a href="selectionVue.php">
+                    <input type="button" value="Ajouter"/>
+                </a>
+            </div>
+        <br>
+        <br>
+
+        <label for="joueurs">Remplaçants :</label>
+
+        <table class="players-table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Poste</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $remplacants = [];
+
+                foreach ($titulaires as $joueur) {
+                    $numLicence = $joueur['num_licence'];
+                    echo "<tr>
+                            <td>{$joueur->getNom()}</td>
+                            <td>{$joueur->getPrenom()}</td>
+                            <td>
+                                <a href='ajouterCommentaireVue.php?licence={$numLicence}'>
+                                    <button type='button'>Ajouter un commentaire</button>
+                                </a>
+                            </td>
+                            <td>
+                                <a href='modifierJoueurVue.php?licence={$numLicence}'>
+                                    <button type='button'>Modifier</button>
+                                </a>
+                            </td>
+                            <td>
+                                <a href='supprimerJoueurVue.php?licence={$numLicence}'>
+                                    <button type='button'>Supprimer</button>
+                                </a>
+                            </td>
+                          </tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+            <div class="add-player-section">
+                <a href="selectionVue.php">
                     <input type="button" value="Ajouter"/>
                 </a>
             </div>

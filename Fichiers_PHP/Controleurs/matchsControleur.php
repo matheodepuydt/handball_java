@@ -163,4 +163,19 @@ class matchsControleur {
         $stmt->execute();
     }
 
+    public function getNotes($num_licence) {
+        $db = connectionBD::getInstance()->getConnection();
+    
+        $stmt = $db->prepare('SELECT p.note, r.date_heure, r.nom_adversaire
+                            FROM participer p, rencontre r
+                            WHERE p.num_licence = :num_licence
+                            AND p.date_heure = r.date_heure;
+                            ');
+        $stmt->execute([':num_licence' => $num_licence]);
+    
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        return $result;
+    }
+
 }

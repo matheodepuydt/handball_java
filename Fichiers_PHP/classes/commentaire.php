@@ -1,21 +1,19 @@
 <?php
 class Commentaire {
+    private string $description;
+    private string $date_commentaire;
 
-    private $description;
-    private $date;
-
-    public function Commentaire($description, $date){
+    public function __construct(string $description, string $date_commentaire) {
         $this->description = $description;
-        $this->date = $date;
+        $this->date_commentaire = $date_commentaire;
     }
 
-    public function getDescription(){
+    public function getDescription(): string {
         return $this->description;
     }
 
-    public function getDate(){
-        return $this->date;
+    public function getDate(): string {
+        return $this->date_commentaire;
     }
-
 }
 ?>
