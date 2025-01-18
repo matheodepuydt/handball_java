@@ -1,4 +1,4 @@
-<?php
+.<?php
 require '../Controleurs/joueursControleur.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

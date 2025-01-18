@@ -23,9 +23,11 @@
             <tr>
                 <th>Date et Heure</th>
                 <th>Nom de l'Adversaire</th>
-                <th>lieu</th>
-                <th>Domicile/ Exterieur</th>
+                <th>Lieu</th>
+                <th>Domicile/Exterieur</th>
                 <th>Résultat</th>
+                <th></th>
+                <th></th>
                 <th></th>
                 <th></th>
             </tr>
@@ -34,9 +36,12 @@
         <?php
             $controleur = new matchsControleur();
             $matchs = $controleur->getAllMatchs();
+            $dateActuelle = date('Y-m-d H:i'); // Date et heure actuelles
 
             foreach ($matchs as $matchs) {
                 $date_heure = $matchs->getDate();
+                $estPasse = strtotime($date_heure) < strtotime($dateActuelle); // Comparaison des dates
+
                 echo "<tr>
                         <td>{$matchs->getDate()}</td>
                         <td>{$matchs->getAdversaire()}</td>
@@ -45,18 +50,31 @@
                         <td>{$matchs->getResultat()}</td>
                         <td>
                             <a href='modifierMatchVue.php?date_heure={$date_heure}'>
-                                <button type='button'>Modifier</button>
+                                <button type='button' " . ($estPasse ? "disabled" : "") . ">Modifier</button>
                             </a>
-                        </td>                               
+                        </td>
+                               
                         <td>
                             <a href='supprimerMatchVue.php?date_heure={$date_heure}'>
                                 <button type='button'>Supprimer</button>
                             </a>
                         </td>
+
+                        <td>
+                            <a href='ajouterResultatVue.php?date_heure={$date_heure}'>
+                                <button type='button' " . (!$estPasse ? "disabled" : "") . ">Ajouter Resultat</button>
+                            </a>
+                        </td>
+
+                        <td>
+                            <a href='feuilleDeMatchVue.php?date_heure={$date_heure}'>
+                                <button type='button'>Feuille de Match</button>
+                            </a>
+                        </td>
                     </tr>";
-                }
-                ?>
-            </tbody>
+            }
+        ?>
+        </tbody>
         </table>
         <div class="add-match-section">
             <a href="ajouterMatchVue.php">
@@ -65,4 +83,4 @@
         </div>
     </div>
 </body>
-</html>  
+</html>

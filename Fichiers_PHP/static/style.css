@@ -452,6 +452,13 @@ textarea {
   background-color: #0056b3;
 }
 
+button[disabled] {
+  background-color: #d3d3d3 !important;  /* Gris clair pour le fond */
+  color: #a9a9a9 !important;  /* Gris plus pâle pour le texte */
+  cursor: not-allowed !important;  /* Change le curseur pour signaler que le bouton est désactivé */
+  border: 1px solid #ccc !important;  /* Bordure plus claire */
+}
+
 /* Nouveau style pour la section "Ajouter un joueur" */
 .add-match-section {
   text-align: center;

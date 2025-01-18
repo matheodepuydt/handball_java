@@ -13,7 +13,7 @@
 
         $match = new Rencontre($date_heure,$nom_adversaire,$lieu,$domicile,$resultat);
         $controleur = new matchsControleur();
-        
+
         $controleur->modifierMatch($match);
         header("Location: matchsVue.php");
         exit(); // Important pour arrêter l'exécution après la redirection
@@ -55,25 +55,22 @@
                 '<?php echo htmlspecialchars($match->getDate()); ?>' required />
 
 
-            <label class='label-ajouter-match' for='nom_adversaire'>Nom Adversaire :</label>
-            <input class='input-ajouter-match' type='text' name='nom_adversaire' id='nom_adversaire' value=
+            <input class="input-ajouter-match" type="hidden" name="nom_adversaire" id="nom_adversaire" value=
                 '<?php echo htmlspecialchars($match->getAdversaire()); ?>' required />
             
 
-            <label class='label-ajouter-match' for='lieu'>Lieu :</label>
-            <input class='input-ajouter-match' type='text' name='lieu' id='lieu' value=
+            <input class="input-ajouter-match" type="hidden" name="lieu" id="lieu" value=
                 '<?php echo htmlspecialchars($match->getLieu()); ?>' required />
-            
 
-            <label class='label-ajouter-match' for='domicile'>Domicile :</label>
-            <select class='select-ajouter-match' name='domicile' id='domicile'>
-                <option value='domicile' <?php echo $match->getDomicile() == 'domicile' ? 'selected' : ''; ?>>Domicile</option>
-                <option value='exterieur' <?php echo $match->getDomicile() == 'extérieur' ? 'selected' : ''; ?>>Extérieur</option>
+            <input class="input-ajouter-match" type="hidden" name="domicile" id="domicile" value=
+                '<?php echo htmlspecialchars($match->getDomicile()); ?>' required />
+            
+            <label class='label-ajouter-match' for='resultat'>Resultat :</label>
+            <select class='select-ajouter-match' name='resultat' id='resultat'>
+                <option value='Victoire' <?php echo $match->getDomicile() == 'Victoire' ? 'selected' : ''; ?>>Victoire</option>
+                <option value='Defaite' <?php echo $match->getDomicile() == 'Defaite' ? 'selected' : ''; ?>>Defaite</option>
+                <option value='Match Nul' <?php echo $match->getDomicile() == 'Match Nul' ? 'selected' : ''; ?>>Match Nul</option>
             </select>
-            
-            <input class="input-ajouter-match" type="hidden" name="resultat" id="resultat" value=
-                '<?php echo htmlspecialchars($match->getResultat()); ?>' required />
-
             
             <div class='actions-ajouter-match'>
                 <input class='input-ajouter-match' type='submit' value='Valider' />
