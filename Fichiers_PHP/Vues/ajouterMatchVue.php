@@ -67,13 +67,11 @@
 
             <label class='label-ajouter-match' for='domicile'>Domicile :</label>
             <select class='select-ajouter-match' name='domicile' id='domicile'>
-                <option value='domicile' <?php echo $domicile == 'Domicile' ? 'selected' : ''; ?>>Domicile</option>
-                <option value='exterieur' <?php echo $domicile == 'Extérieur' ? 'selected' : ''; ?>>Extérieur</option>
+                <option value='domicile' <?php echo $domicile == 'domicile' ? 'selected' : ''; ?>>Domicile</option>
+                <option value='exterieur' <?php echo $domicile == 'extérieur' ? 'selected' : ''; ?>>Extérieur</option>
             </select>
             
-
-            <label class='label-ajouter-joueur' for='resultat'>Résultat :</label>
-            <input class='input-ajouter-joueur' type='text' name='resultat' id='resultat' value=
+            <input class='input-ajouter-joueur' type='hidden' name='resultat' id='resultat' value=
                 '<?php echo htmlspecialchars($resultat); ?>' />
 
             

@@ -14,12 +14,17 @@
         $match = new Rencontre($date_heure,$nom_adversaire,$lieu,$domicile,$resultat);
         $controleur = new matchsControleur();
 
+        if (new DateTime($date_heure) > new DateTime()) {
+            $match->setResultat(""); // Résultat non modifiable
+        }
+
         $controleur->modifierMatch($match);
         header("Location: matchsVue.php");
         exit(); // Important pour arrêter l'exécution après la redirection
 
     }
 
+    //Vérification si un match a bien été selectionné
     if (!isset($_GET['date_heure'])) {
         die("Erreur : aucun match sélectionné !");
     } else {
@@ -32,6 +37,9 @@
     if (!$match) {
         die("Erreur : le match n'existe pas !");
     }
+
+    // Vérification si la date est dans le passé
+    $dateDansLePasse = (new DateTime($match->getDate()) <= new DateTime());
 ?>
 
 <!DOCTYPE html>
@@ -71,9 +79,12 @@
             
 
             <label class='label-ajouter-match' for='resultat'>Résultat :</label>
-            <input class='input-ajouter-match' type='text' name='resultat' id='resultat' value=
-                '<?php echo htmlspecialchars($match->getResultat()); ?>' />
-
+            <select class='select-ajouter-match' name='resultat' id='resultat'>
+                <?php echo !$dateDansLePasse ? 'disabled' : ''; ?>>
+                <option value='Victoire' <?php echo $match->getResultat() == 'Victoire' ? 'selected' : ''; ?>>Victoire</option>
+                <option value='Defaite' <?php echo $match->getResultat() == 'Defaite' ? 'selected' : ''; ?>>Defaite</option>
+                <option value='Match Nul' <?php echo $match->getResultat() == 'Match Nul' ? 'selected' : ''; ?>>Match Nul</option>
+            </select>
             
             <div class='actions-ajouter-match'>
                 <input class='input-ajouter-match' type='submit' value='Valider' />
