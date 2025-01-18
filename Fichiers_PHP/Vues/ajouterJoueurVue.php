@@ -54,29 +54,29 @@
     <?php endif; ?>
     <form action="" method="post">
         <label class="label-ajouter-joueur" for="nom">Nom :</label>
-        <input class="input-ajouter-joueur" type="text" name="nom" id="nom" required />
+        <input class="input-ajouter-joueur" type="text" name="nom" id="nom" value='<?php echo htmlspecialchars($nom); ?>' required />
 
         <label class="label-ajouter-joueur" for="prenom">Prénom :</label>
-        <input class="input-ajouter-joueur" type="text" name="prenom" id="prenom" required />
+        <input class="input-ajouter-joueur" type="text" name="prenom" id="prenom" value='<?php echo htmlspecialchars($prenom); ?>' required />
 
         <label class="label-ajouter-joueur" for="date_de_naissance">Date de naissance :</label>
-        <input class="input-ajouter-joueur" type="date" name="date_de_naissance" id="date_de_naissance" />
+        <input class="input-ajouter-joueur" type="date" name="date_de_naissance" id="date_de_naissance" value='<?php echo htmlspecialchars($date_de_naissance); ?>' />
 
         <label class="label-ajouter-joueur" for="taille">Taille (cm) :</label>
-        <input class="input-ajouter-joueur" type="number" name="taille" id="taille" />
+        <input class="input-ajouter-joueur" type="number" name="taille" id="taille" value='<?php echo htmlspecialchars($taille); ?>' />
 
         <label class="label-ajouter-joueur" for="poids">Poids (kg) :</label>
-        <input class="input-ajouter-joueur" type="number" name="poids" id="poids" />
+        <input class="input-ajouter-joueur" type="number" name="poids" id="poids" value='<?php echo htmlspecialchars($poids); ?>' />
 
         <label class="label-ajouter-joueur" for="num_licence">Numéro de licence :</label>
-        <input class="input-ajouter-joueur" type="text" name="num_licence" id="num_licence" required />
+        <input class="input-ajouter-joueur" type="text" name="num_licence" id="num_licence" value='<?php echo htmlspecialchars($num_licence); ?>' required />
 
         <label class="label-ajouter-joueur" for="statut">Statut :</label>
-        <select class="select-ajouter-joueur" name="statut" id="statut">
-            <option value="actif">Actif</option>
-            <option value="blesse">Blessé</option>
-            <option value="suspendu">Suspendu</option>
-            <option value="absent">Absent</option>
+        <select class="select-ajouter-joueur" name="statut" id="statut" >
+            <option value="actif" <?php echo $statut == 'actif' ? 'selected' : ''; ?>>Actif</option>
+            <option value="blesse" <?php echo $statut == 'blesse' ? 'selected' : ''; ?>>Blessé</option>
+            <option value="suspendu" <?php echo $statut == 'suspendu' ? 'selected' : ''; ?>>Suspendu</option>
+            <option value="absent" <?php echo $statut == 'absent' ? 'selected' : ''; ?>>Absent</option>
         </select>
 
         <div class="actions-ajouter-joueur">
