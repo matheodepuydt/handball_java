@@ -80,6 +80,17 @@ class matchsControleur {
         // Connection a la BDD
         $db = connectionBD::getInstance()->getConnection();
 
+        // Vérification si le num_licence existe déjà dans la base de données
+        $stmt = $db->prepare('SELECT COUNT(*) FROM rencontre WHERE date_heure = :date_heure');
+        $stmt->execute([':date_heure' => $rencontre->getDate()]);
+        $result = $stmt->fetchColumn();
+    
+        // Si le num_licence existe déjà, on ne fait pas l'insertion
+        if ($result > 0) {
+            // Tu peux gérer l'erreur ici, par exemple en lançant une exception ou en retournant un message
+            throw new Exception("Il y a déjà un match a cette date et a cette heure");
+        }
+
         // Préparation de la requête
         $stmt = $db->prepare('INSERT  INTO Rencontre (date_heure, nom_adversaire, lieu, domicile, resultat)
         VALUES (:date_heure, :nom_adversaire,:lieu,:domicile,:resultat)');

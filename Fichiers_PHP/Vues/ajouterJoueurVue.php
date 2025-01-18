@@ -19,6 +19,7 @@
 
     // Initialisation des variables pour éviter des erreurs si le formulaire n'est pas soumis
     $nom = $prenom = $date_de_naissance = $taille = $poids = $num_licence = $statut = "";
+    $error_message = "";
 
     // Traitement du formulaire si une soumission a été effectuée
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -42,12 +43,15 @@
         exit(); // Important pour arrêter l'exécution après la redirection
         } catch (Exception $e) {
             // Gestion de l'exception si le num_licence est déjà pris
-            echo "Erreur : " . $e->getMessage(); // Affiche le message d'erreur
+            $error_message = "Attention : " . $e->getMessage(); // Affiche le message d'erreur
         }
     }
     ?>
     <div class="form-ajouter-joueur-container">
     <h1>Ajouter un joueur</h1>
+    <?php if (!empty($error_message)) : ?>
+        <div class="error-message"><?php echo $error_message; ?></div>
+    <?php endif; ?>
     <form action="" method="post">
         <label class="label-ajouter-joueur" for="nom">Nom :</label>
         <input class="input-ajouter-joueur" type="text" name="nom" id="nom" required />
