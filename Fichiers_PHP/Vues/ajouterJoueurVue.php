@@ -73,10 +73,10 @@
 
         <label class="label-ajouter-joueur" for="statut">Statut :</label>
         <select class="select-ajouter-joueur" name="statut" id="statut" >
-            <option value="actif" <?php echo $statut == 'actif' ? 'selected' : ''; ?>>Actif</option>
-            <option value="blesse" <?php echo $statut == 'blesse' ? 'selected' : ''; ?>>Blessé</option>
-            <option value="suspendu" <?php echo $statut == 'suspendu' ? 'selected' : ''; ?>>Suspendu</option>
-            <option value="absent" <?php echo $statut == 'absent' ? 'selected' : ''; ?>>Absent</option>
+            <option value="Actif" <?php echo $statut == 'Actif' ? 'selected' : ''; ?>>Actif</option>
+            <option value="Blessé" <?php echo $statut == 'Blessé' ? 'selected' : ''; ?>>Blessé</option>
+            <option value="Suspendu" <?php echo $statut == 'Suspendu' ? 'selected' : ''; ?>>Suspendu</option>
+            <option value="Absent" <?php echo $statut == 'Absent' ? 'selected' : ''; ?>>Absent</option>
         </select>
 
         <div class="actions-ajouter-joueur">

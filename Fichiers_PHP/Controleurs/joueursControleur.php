@@ -39,7 +39,20 @@ class controleurJoueurs{
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $result;
+        if ($result) {
+            return new Joueur(
+                $result['nom'],
+                $result['prenom'],
+                $result['date_de_naissance'],
+                $result['taille'],
+                $result['poids'],
+                $result['num_licence'],
+                $result['statut']
+            );
+        }
+
+        //On retourne null si on a pas de résultat
+        return null;
     }
 
     public function modifierJoueur(Joueur $joueur){

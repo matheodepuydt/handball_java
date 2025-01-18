@@ -49,29 +49,29 @@
         <h1>Modifier un joueur</h1>
         <form action='' method='post'>
 
-            <input class="input-ajouter-joueur" type="hidden" name="num_licence" id="num_licence" value='<?php echo htmlspecialchars($joueur['num_licence']); ?>' required />
+            <input class="input-ajouter-joueur" type="hidden" name="num_licence" id="num_licence" value='<?php echo htmlspecialchars($joueur->getNum_licence()); ?>' required />
 
             <label class='label-ajouter-joueur' for='nom'>Nom :</label>
-            <input class='input-ajouter-joueur' type='text' name='nom' id='nom' value='<?php echo htmlspecialchars($joueur['nom']); ?>' required />
+            <input class='input-ajouter-joueur' type='text' name='nom' id='nom' value='<?php echo htmlspecialchars($joueur->getNom()); ?>' required />
             
             <label class='label-ajouter-joueur' for='prenom'>Prénom :</label>
-            <input class='input-ajouter-joueur' type='text' name='prenom' id='prenom' value='<?php echo htmlspecialchars($joueur['prenom']); ?>' required />
+            <input class='input-ajouter-joueur' type='text' name='prenom' id='prenom' value='<?php echo htmlspecialchars($joueur->getPrenom()); ?>' required />
             
             <label class='label-ajouter-joueur' for='date_de_naissance'>Date de naissance :</label>
-            <input class='input-ajouter-joueur' type='date' name='date_de_naissance' id='date_de_naissance' value='<?php echo htmlspecialchars($joueur['date_de_naissance']); ?>' />
+            <input class='input-ajouter-joueur' type='date' name='date_de_naissance' id='date_de_naissance' value='<?php echo htmlspecialchars($joueur->getDate_de_naissance()); ?>' />
             
             <label class='label-ajouter-joueur' for='taille'>Taille (cm) :</label>
-            <input class='input-ajouter-joueur' type='number' name='taille' id='taille' value='<?php echo htmlspecialchars($joueur['taille']); ?>' />
+            <input class='input-ajouter-joueur' type='number' name='taille' id='taille' value='<?php echo htmlspecialchars($joueur->getTaille()); ?>' />
             
             <label class='label-ajouter-joueur' for='poids'>Poids (kg) :</label>
-            <input class='input-ajouter-joueur' type='number' name='poids' id='poids' value='<?php echo htmlspecialchars($joueur['poids']); ?>' />
+            <input class='input-ajouter-joueur' type='number' name='poids' id='poids' value='<?php echo htmlspecialchars($joueur->getPoids()); ?>' />
             
             <label class='label-ajouter-joueur' for='statut'>Statut :</label>
             <select class='select-ajouter-joueur' name='statut' id='statut'>
-                <option value='actif' <?php echo $joueur['statut'] == 'actif' ? 'selected' : ''; ?>>Actif</option>
-                <option value='blesse' <?php echo $joueur['statut'] == 'blesse' ? 'selected' : ''; ?>>Blessé</option>
-                <option value='suspendu' <?php echo $joueur['statut'] == 'suspendu' ? 'selected' : ''; ?>>Suspendu</option>
-                <option value='absent' <?php echo $joueur['statut'] == 'absent' ? 'selected' : ''; ?>>Absent</option>
+                <option value='Actif' <?php echo $joueur->getStatut() == 'Actif' ? 'selected' : ''; ?>>Actif</option>
+                <option value='Blessé' <?php echo $joueur->getStatut() == 'Blessé' ? 'selected' : ''; ?>>Blessé</option>
+                <option value='Suspendu' <?php echo $joueur->getStatut() == 'Suspendu' ? 'selected' : ''; ?>>Suspendu</option>
+                <option value='Absent' <?php echo $joueur->getStatut() == 'Absent' ? 'selected' : ''; ?>>Absent</option>
             </select>
 
             
