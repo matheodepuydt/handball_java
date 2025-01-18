@@ -13,7 +13,7 @@ class controleurStat{
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $result;
+        return $result['total'];
     }
 
     public function getNbDefaites(){
@@ -25,7 +25,7 @@ class controleurStat{
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $result;
+        return $result['total'];
     }
 
     public function getNbNuls(){
@@ -37,7 +37,7 @@ class controleurStat{
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $result;
+        return $result['total'];
     }
     
     public function getAllJoueurs(){
@@ -62,7 +62,7 @@ class controleurStat{
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $result;
+        return $result['total'];
     }
 
     public function getNbRemplacements($num_licence){
@@ -74,7 +74,7 @@ class controleurStat{
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $result;
+        return $result['total'];
     }
 
     public function getMoyenneNote($num_licence){
@@ -86,31 +86,70 @@ class controleurStat{
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $result;
+        return $result['total'];
     }
 
     public function getNbVictoiresJoueur($num_licence){
         $db = connectionBD::getInstance()->getConnection();
 
         // Préparation de la requête
-        $stmt = $db->prepare('SELECT count(*) as total from rencontre where resultat = "Victoire"');
+        $stmt = $db->prepare('SELECT count(*) as total 
+                            from rencontre 
+                            where resultat = "Victoire" 
+                            and date_heure in (
+                                select date_heure
+                                from participer
+                                where num_licence = :num_licence');
         $stmt->execute([':num_licence' => $num_licence]);
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $result;
+        return $result['total'];
     }
 
     public function getNbMatchsJoueur($num_licence){
         $db = connectionBD::getInstance()->getConnection();
 
         // Préparation de la requête
-        $stmt = $db->prepare('SELECT count(*) as total from rencontre where resultat = "Victoire"');
+        $stmt = $db->prepare('SELECT count(*) as total
+                            from rencontre 
+                            where date_heure in (
+                                select date_heure
+                                from participer
+                                where num_licence = :num_licence');
         $stmt->execute([':num_licence' => $num_licence]);
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        return $result;
+        return $result['total'];
+    }
+
+    public function calculPourcentageVictoiresJoueur($num_licence){
+        $controleur = new controleurStat();
+        $nbTotal = $controleur->getNbMatchsJoueur($num_licence)+$controleur->getNbVictoiresJoueur($num_licence);
+        $pourcentageVictoires = ($totalMatchs > 0) ? ($nbVictoires / $totalMatchs) * 100 : 0;
+        return $pourcentageVictoires;
+    }
+
+    public function getPostePrefereJoueur($num_licence){
+        $db = connectionBD::getInstance()->getConnection();
+
+        // Préparation de la requête
+        $stmt = $db->prepare('SELECT poste, COUNT(*) AS nombre_de_participations
+                            FROM participer
+                            WHERE num_licence = :num_licence
+                            GROUP BY poste
+                            ORDER BY nombre_de_participations DESC
+                            LIMIT 1');
+        $stmt->execute([':num_licence' => $num_licence]);
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($result) {
+            return $result['poste'];
+        } else {
+            return null; // Aucun poste trouvé
+        }
     }
 
 }
