@@ -46,7 +46,7 @@ CREATE TABLE Authentification (
 -- Table Participer
 CREATE TABLE Participer (
     num_licence CHAR(13),
-    date_heure VARCHAR(50),
+    date_heure DATETIME,
     titulaire BOOLEAN NOT NULL,
     note TINYINT,
     poste VARCHAR(50),
