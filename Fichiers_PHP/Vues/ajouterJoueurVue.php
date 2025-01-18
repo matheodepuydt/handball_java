@@ -35,9 +35,15 @@
         $joueur = new Joueur($nom,$prenom,$date_de_naissance,$taille,$poids,$num_licence,$statut);
         $controleur = new controleurJoueurs();
 
-        $controleur->addJoueur($joueur);
-        header("Location: page_joueursVue.php");
+        try {
+            // Appel de la méthode pour ajouter le joueur
+            $controleur->addJoueur($joueur);
+            header("Location: page_joueursVue.php");
         exit(); // Important pour arrêter l'exécution après la redirection
+        } catch (Exception $e) {
+            // Gestion de l'exception si le num_licence est déjà pris
+            echo "Erreur : " . $e->getMessage(); // Affiche le message d'erreur
+        }
     }
     ?>
     <div class="form-ajouter-joueur-container">

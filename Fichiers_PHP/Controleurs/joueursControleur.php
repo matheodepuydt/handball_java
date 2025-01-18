@@ -55,15 +55,25 @@ class controleurJoueurs{
     }
 
     public function addJoueur(Joueur $joueur){
-        
         $db = connectionBD::getInstance()->getConnection();
-
-        // Préparation de la requête
+    
+        // Vérification si le num_licence existe déjà dans la base de données
+        $stmt = $db->prepare('SELECT COUNT(*) FROM joueur WHERE num_licence = :num_licence');
+        $stmt->execute([':num_licence' => $joueur->getNum_licence()]);
+        $result = $stmt->fetchColumn();
+    
+        // Si le num_licence existe déjà, on ne fait pas l'insertion
+        if ($result > 0) {
+            // Tu peux gérer l'erreur ici, par exemple en lançant une exception ou en retournant un message
+            throw new Exception("Le numéro de licence est déjà pris.");
+        }
+    
+        // Préparation de la requête pour l'insertion
         $stmt = $db->prepare('
             INSERT INTO joueur (num_licence, nom, prenom, date_de_naissance, taille, poids, statut) 
             VALUES (:num_licence, :nom, :prenom, :date_naissance, :taille, :poids, :statut)
         ');
-
+    
         $stmt->execute([
             ':nom' => $joueur->getNom(),
             ':prenom' => $joueur->getPrenom(),
@@ -73,8 +83,8 @@ class controleurJoueurs{
             ':num_licence' => $joueur->getNum_licence(),
             ':statut' => $joueur->getStatut()
         ]);
-
     }
+    
 
     /**
      * Méthode pour supprimer un joueur
