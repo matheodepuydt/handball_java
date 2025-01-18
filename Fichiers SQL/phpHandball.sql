@@ -30,7 +30,7 @@ CREATE TABLE Commentaire (
 
 -- Table Rencontre
 CREATE TABLE Rencontre (
-    date_heure VARCHAR(50) PRIMARY KEY,
+    date_heure DATETIME PRIMARY KEY,
     nom_adversaire VARCHAR(50) NOT NULL,
     lieu VARCHAR(50),
     domicile BOOLEAN NOT NULL,
