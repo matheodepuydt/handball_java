@@ -1,9 +1,14 @@
 <?php
 require '../Controleurs/joueursControleur.php';
+require '../Controleurs/matchsControleur.php';
 require '../classes/joueur.php';
 require '../Controleurs/redirectionControleur.php';
+require '../classes/participer.php';
 
-$controleur = new controleurJoueurs();
+//session_start();
+
+$controleurJoueur = new controleurJoueurs();
+$controleurMatch = new matchsControleur();
 
 // Initialiser la liste des titulaires et des remplaçants si elles ne sont pas déjà définies dans la session
 if (!isset($_SESSION['titulaires'])) {
@@ -15,7 +20,13 @@ if (!isset($_SESSION['remplacants'])) {
 
 if (isset($_GET['date_heure'])) {
     $_SESSION['date_heure'] = htmlspecialchars($_GET['date_heure']);
+    $_SESSION['titulaires'] = [];
+    $_SESSION['remplacants'] = [];
 }
+
+$dateActuelle = date('Y-m-d H:i'); // Date et heure actuelles
+$estPasse = strtotime($_SESSION['date_heure']) < strtotime($dateActuelle); // Comparaison des dates
+$matchDansLePasse = $estPasse ? "disabled" : ""; // Variable pour désactiver si le match est dans le passé
 
 if (isset($_GET['retirerTitulaire'])) {
     $licenceRetirerTitulaire = htmlspecialchars($_GET['retirerTitulaire']);
@@ -67,7 +78,7 @@ if (isset($_GET['licence'])) {
     if (!$joueurDejaDansListeTitulaire && $_GET['feuille'] == 'titulaire') {
         // Vérifier si le nombre de titulaires est inférieur à 7
         if (count($_SESSION['titulaires']) < 7) {
-            $joueur = $controleur->getJoueur($licence);
+            $joueur = $controleurJoueur->getJoueur($licence);
             $_SESSION['titulaires'][] = serialize($joueur);
         } else {
             echo "<p>Le nombre de titulaires ne peut pas dépasser 7.</p>";
@@ -75,7 +86,7 @@ if (isset($_GET['licence'])) {
     } elseif (!$joueurDejaDansListeRemplacant && $_GET['feuille'] == 'remplacant') {
         // Vérifier si le nombre de remplaçants est inférieur à 7
         if (count($_SESSION['remplacants']) < 7) {
-            $joueur = $controleur->getJoueur($licence);
+            $joueur = $controleurJoueur->getJoueur($licence);
             $_SESSION['remplacants'][] = serialize($joueur);
         } else {
             echo "<p>Le nombre de remplaçants ne peut pas dépasser 7.</p>";
@@ -103,6 +114,7 @@ if (isset($_GET['licence'])) {
             echo "<p class='error-message'>Il doit y avoir exactement 7 titulaires pour valider la feuille de match.</p>";
         } else {
             // Code pour rediriger ou continuer l'action après la validation
+            $participer = new Participer();
             header('Location: matchsVue.php');
             exit();
         }
@@ -140,7 +152,7 @@ if (isset($_GET['licence'])) {
                                 <td>{$joueur->getNom()}</td>
                                 <td>{$joueur->getPrenom()}</td>
                                 <td>
-                                    <select class='select-ajouter-joueur' name='poste'>
+                                    <select class='select-ajouter-joueur' name='poste' $matchDansLePasse>
                                         <option value='Gardien'>Gardien</option>
                                         <option value='Ailier gauche'>Ailier gauche</option>
                                         <option value='Arrière gauche'>Arrière gauche</option>
@@ -152,11 +164,11 @@ if (isset($_GET['licence'])) {
                                 </td>
                                 <td>
                                     <a href='feuilleDeMatchVue.php?retirerTitulaire={$joueur->getNum_licence()}'>
-                                        <button type='button'>Retirer</button>
+                                        <button type='button' $matchDansLePasse>Retirer</button>
                                     </a>
                                 </td>
                                 <td>
-                                    <select class='select-ajouter-joueur' name='note'>
+                                    <select class='select-ajouter-joueur' name='note' $matchDansLePasse>
                                         <option value='1'>1</option>
                                         <option value='2'>2</option>
                                         <option value='3'>3</option>
@@ -169,11 +181,11 @@ if (isset($_GET['licence'])) {
                     ?>
                 </tbody>
             </table>
-            <div class="add-player-section">
+            <div class="players-table">
                 <?php
                 if (count($_SESSION['titulaires']) < 7) {
                     echo "<a href='selectionVue.php?feuille=titulaire'>
-                            <input type='button' value='Ajouter'/>
+                            <button type='button' $matchDansLePasse>Ajouter</button>
                         </a>";
                 } else {
                     echo "<p>Le nombre maximum de titulaires est atteint. Vous ne pouvez pas ajouter d'autres joueurs.</p>";
@@ -224,11 +236,12 @@ if (isset($_GET['licence'])) {
                                 </td>
                                 <td>
                                     <a href='feuilleDeMatchVue.php?retirerRemplacant={$joueur->getNum_licence()}'>
-                                        <button type='button'>Retirer</button>
+                                        <button type='button'$matchDansLePasse>Retirer</button>
                                     </a>
                                 </td>
                                 <td>
                                     <select class='select-ajouter-joueur' name='note'>
+                                        <option value=''></option>
                                         <option value='1'>1</option>
                                         <option value='2'>2</option>
                                         <option value='3'>3</option>
@@ -241,11 +254,11 @@ if (isset($_GET['licence'])) {
                     ?>
                 </tbody>
             </table>
-            <div class="add-player-section">
+            <div class="players-table">
                 <?php
                 if (count($_SESSION['remplacants']) < 7) {
                     echo "<a href='selectionVue.php?feuille=remplacant'>
-                            <input type='button' value='Ajouter'/>
+                            <button type='button' $matchDansLePasse>Ajouter</button>
                         </a>";
                 } else {
                     echo "<p>Le nombre maximum de remplaçants est atteint. Vous ne pouvez pas ajouter d'autres joueurs.</p>";
