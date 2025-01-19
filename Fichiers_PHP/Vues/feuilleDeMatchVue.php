@@ -65,11 +65,21 @@ if (isset($_GET['licence'])) {
     
     // Ajouter le joueur aux titulaires ou remplaçants en fonction de la catégorie
     if (!$joueurDejaDansListeTitulaire && $_GET['feuille'] == 'titulaire') {
-        $joueur = $controleur->getJoueur($licence);
-        $_SESSION['titulaires'][] = serialize($joueur);
+        // Vérifier si le nombre de titulaires est inférieur à 7
+        if (count($_SESSION['titulaires']) < 7) {
+            $joueur = $controleur->getJoueur($licence);
+            $_SESSION['titulaires'][] = serialize($joueur);
+        } else {
+            echo "<p>Le nombre de titulaires ne peut pas dépasser 7.</p>";
+        }
     } elseif (!$joueurDejaDansListeRemplacant && $_GET['feuille'] == 'remplacant') {
-        $joueur = $controleur->getJoueur($licence);
-        $_SESSION['remplacants'][] = serialize($joueur);
+        // Vérifier si le nombre de remplaçants est inférieur à 7
+        if (count($_SESSION['remplacants']) < 7) {
+            $joueur = $controleur->getJoueur($licence);
+            $_SESSION['remplacants'][] = serialize($joueur);
+        } else {
+            echo "<p>Le nombre de remplaçants ne peut pas dépasser 7.</p>";
+        }
     }
 }
 ?>
@@ -86,137 +96,166 @@ if (isset($_GET['licence'])) {
 
     <?php
     include('../static/header.html');
+
+    if (isset($_GET['valider'])) { // Si le bouton valider est cliqué
+        // Vérifier que le nombre de titulaires est bien égal à 7
+        if (count($_SESSION['titulaires']) != 7) {
+            echo "<p class='error-message'>Il doit y avoir exactement 7 titulaires pour valider la feuille de match.</p>";
+        } else {
+            // Code pour rediriger ou continuer l'action après la validation
+            header('Location: matchsVue.php');
+            exit();
+        }
+    }
     ?>
     
     <div class="players-page-container">
         <h1>Feuille de match</h1>
-        
-        <!-- Titulaires -->
-        <label for="joueurs">Titulaires :</label>
+        <div class="players-page-container">
+            <!-- Titulaires -->
+            <label for="joueurs">Titulaires : <?php echo count($_SESSION['titulaires']); ?>/7</label>
 
-        <table class="players-table">
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Poste</th>
-                    <th></th>
-                    <th>Note</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if (!is_array($_SESSION['titulaires'])) {
-                    $_SESSION['titulaires'] = [];
-                }
-
-                // Récupérer les titulaires depuis la session
-                foreach ($_SESSION['titulaires'] as &$joueur) {
-                    if (is_string($joueur)) { // Vérifie si l'élément est une chaîne et donc sérialisé
-                        $joueur = unserialize($joueur);
+            <table class="players-table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Poste</th>
+                        <th></th>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if (!is_array($_SESSION['titulaires'])) {
+                        $_SESSION['titulaires'] = [];
                     }
-                    echo "<tr>
-                            <td>{$joueur->getNom()}</td>
-                            <td>{$joueur->getPrenom()}</td>
-                            <td>
-                                <select class='select-ajouter-joueur' name='poste'>
-                                    <option value='Gardien'>Gardien</option>
-                                    <option value='Ailier gauche'>Ailier gauche</option>
-                                    <option value='Arrière gauche'>Arrière gauche</option>
-                                    <option value='Centre'>Centre</option>
-                                    <option value='Arrière droit'>Arrière droit</option>
-                                    <option value='Ailier droit'>Ailier droit</option>
-                                    <option value='Pivot'>Pivot</option>
-                                </select>
-                            </td>
-                            <td>
-                                <a href='feuilleDeMatchVue.php?retirerTitulaire={$joueur->getNum_licence()}'>
-                                    <button type='button'>Retirer</button>
-                                </a>
-                            </td>
-                            <td>
-                                <select class='select-ajouter-joueur' name='note'>
-                                    <option value='1'>1</option>
-                                    <option value='2'>2</option>
-                                    <option value='3'>3</option>
-                                    <option value='4'>4</option>
-                                    <option value='5'>5</option>
-                                </select>
-                            </td>
-                        </tr>";
+
+                    // Récupérer les titulaires depuis la session
+                    foreach ($_SESSION['titulaires'] as &$joueur) {
+                        if (is_string($joueur)) { // Vérifie si l'élément est une chaîne et donc sérialisé
+                            $joueur = unserialize($joueur);
+                        }
+                        echo "<tr>
+                                <td>{$joueur->getNom()}</td>
+                                <td>{$joueur->getPrenom()}</td>
+                                <td>
+                                    <select class='select-ajouter-joueur' name='poste'>
+                                        <option value='Gardien'>Gardien</option>
+                                        <option value='Ailier gauche'>Ailier gauche</option>
+                                        <option value='Arrière gauche'>Arrière gauche</option>
+                                        <option value='Demi centre'>Demi centre</option>
+                                        <option value='Arrière droit'>Arrière droit</option>
+                                        <option value='Ailier droit'>Ailier droit</option>
+                                        <option value='Pivot'>Pivot</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <a href='feuilleDeMatchVue.php?retirerTitulaire={$joueur->getNum_licence()}'>
+                                        <button type='button'>Retirer</button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <select class='select-ajouter-joueur' name='note'>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                    </select>
+                                </td>
+                            </tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+            <div class="add-player-section">
+                <?php
+                if (count($_SESSION['titulaires']) < 7) {
+                    echo "<a href='selectionVue.php?feuille=titulaire'>
+                            <input type='button' value='Ajouter'/>
+                        </a>";
+                } else {
+                    echo "<p>Le nombre maximum de titulaires est atteint. Vous ne pouvez pas ajouter d'autres joueurs.</p>";
                 }
                 ?>
-            </tbody>
-        </table>
-        <div class="add-player-section">
-            <a href="selectionVue.php?feuille=titulaire">
-                <input type="button" value="Ajouter"/>
-            </a>
+            </div>
+
+            <br><br>
+
+            <!-- Remplaçants -->
+            <label for="joueurs">Remplaçants : <?php echo count($_SESSION['remplacants']); ?>/7 (facultatif)</label>
+
+            <table class="players-table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Poste</th>
+                        <th></th>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+
+                    if (!is_array($_SESSION['remplacants'])) {
+                        $_SESSION['remplacants'] = [];
+                    }
+
+                    // Récupérer les remplaçants depuis la session
+                    foreach ($_SESSION['remplacants'] as &$joueur) {
+                        if (is_string($joueur)) { // Vérifie si l'élément est une chaîne et donc sérialisé
+                            $joueur = unserialize($joueur);
+                        }
+                        echo "<tr>
+                                <td>{$joueur->getNom()}</td>
+                                <td>{$joueur->getPrenom()}</td>
+                                <td>
+                                    <select class='select-ajouter-joueur' name='poste'>
+                                        <option value='Gardien'>Gardien</option>
+                                        <option value='Ailier gauche'>Ailier gauche</option>
+                                        <option value='Arrière gauche'>Arrière gauche</option>
+                                        <option value='Demi centre'>Demi centre</option>
+                                        <option value='Arrière droit'>Arrière droit</option>
+                                        <option value='Ailier droit'>Ailier droit</option>
+                                        <option value='Pivot'>Pivot</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <a href='feuilleDeMatchVue.php?retirerRemplacant={$joueur->getNum_licence()}'>
+                                        <button type='button'>Retirer</button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <select class='select-ajouter-joueur' name='note'>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                    </select>
+                                </td>
+                            </tr>";
+                    }                
+                    ?>
+                </tbody>
+            </table>
+            <div class="add-player-section">
+                <?php
+                if (count($_SESSION['remplacants']) < 7) {
+                    echo "<a href='selectionVue.php?feuille=remplacant'>
+                            <input type='button' value='Ajouter'/>
+                        </a>";
+                } else {
+                    echo "<p>Le nombre maximum de remplaçants est atteint. Vous ne pouvez pas ajouter d'autres joueurs.</p>";
+                }
+                ?>
+            </div>
         </div>
-        
-        <br><br>
-
-        <!-- Remplaçants -->
-        <label for="joueurs">Remplaçants :</label>
-
-        <table class="players-table">
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Poste</th>
-                    <th></th>
-                    <th>Note</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-
-                if (!is_array($_SESSION['remplacants'])) {
-                    $_SESSION['remplacants'] = [];
-                }
-
-                // Récupérer les remplaçants depuis la session
-                foreach ($_SESSION['remplacants'] as &$joueur) {
-                    if (is_string($joueur)) { // Vérifie si l'élément est une chaîne et donc sérialisé
-                        $joueur = unserialize($joueur);
-                    }
-                    echo "<tr>
-                            <td>{$joueur->getNom()}</td>
-                            <td>{$joueur->getPrenom()}</td>
-                            <td>
-                                <select class='select-ajouter-joueur' name='poste'>
-                                    <option value='Gardien'>Gardien</option>
-                                    <option value='Ailier gauche'>Ailier gauche</option>
-                                    <option value='Arrière gauche'>Arrière gauche</option>
-                                    <option value='Centre'>Centre</option>
-                                    <option value='Arrière droit'>Arrière droit</option>
-                                    <option value='Ailier droit'>Ailier droit</option>
-                                    <option value='Pivot'>Pivot</option>
-                                </select>
-                            </td>
-                            <td>
-                                <a href='feuilleDeMatchVue.php?retirerRemplacant={$joueur->getNum_licence()}'>
-                                    <button type='button'>Retirer</button>
-                                </a>
-                            </td>
-                            <td>
-                                <select class='select-ajouter-joueur' name='note'>
-                                    <option value='1'>1</option>
-                                    <option value='2'>2</option>
-                                    <option value='3'>3</option>
-                                    <option value='4'>4</option>
-                                    <option value='5'>5</option>
-                                </select>
-                            </td>
-                          </tr>";
-                }                
-                ?>
-            </tbody>
-        </table>
         <div class="add-player-section">
-            <a href="selectionVue.php?feuille=remplacant">
-                <input type="button" value="Ajouter"/>
+            <a href="feuilleDeMatchVue.php?valider=1">
+                <input type="button" value="Valider"/>
             </a>
         </div>
     </div>
