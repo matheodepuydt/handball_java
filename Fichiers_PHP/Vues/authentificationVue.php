@@ -1,5 +1,7 @@
 <?php
 require_once '../Controleurs/authentificationControleur.php';
+require '../Controleurs/redirectionControleur.php';
+
 // Initialiser le message d'erreur
 $error_message = null;
 
@@ -18,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($authCtrl->verifyPasswordByLogin($login, $password)) {
                 // Connexion réussie
-                session_start();
                 $_SESSION['user'] = $login;
                 header('Location: matchsVue.php');
                 exit();

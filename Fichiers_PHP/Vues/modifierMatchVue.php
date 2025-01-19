@@ -1,6 +1,6 @@
 <?php
     require '../Controleurs/matchsControleur.php';
-    session_start();
+    require '../Controleurs/redirectionControleur.php';
     
     // Traitement du formulaire si une soumission a été effectuée
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {

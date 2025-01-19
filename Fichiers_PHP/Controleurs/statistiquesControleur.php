@@ -1,6 +1,7 @@
 <?php
 
 require_once 'connectionBD.php';
+require '../Controleurs/redirectionControleur.php';
 
 class controleurStat{
 

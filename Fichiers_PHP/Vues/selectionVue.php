@@ -1,8 +1,7 @@
 <?php
     require '../Controleurs/joueursControleur.php';
     require '../classes/joueur.php';
-
-    session_start();
+    require '../Controleurs/redirectionControleur.php';
 
     if (isset($_GET['feuille'])) {
         $feuille = $_GET['feuille'];

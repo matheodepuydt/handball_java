@@ -1,6 +1,7 @@
 <?php
     require '../classes/joueur.php';
     require '../Controleurs/joueursControleur.php';
+    require '../Controleurs/redirectionControleur.php';
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +15,6 @@
 <body>
     <?php
     include('../static/header.html');
-    session_start();
     
     // Traitement du formulaire si une soumission a été effectuée
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {

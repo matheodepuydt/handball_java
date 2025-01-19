@@ -1,4 +1,6 @@
 <?php
+require '../Controleurs/redirectionControleur.php';
+
 // Connexion à la base de données
 $server = 'localhost';
 $bd = 'phphandball';

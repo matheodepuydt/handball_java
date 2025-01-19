@@ -1,5 +1,7 @@
 <?php
     require '../Controleurs/matchsControleur.php';
+    require '../Controleurs/redirectionControleur.php';
+
     if (!isset($_GET['licence'])) {
         die("Erreur : aucun match sélectionné !");
     } else {
@@ -16,7 +18,6 @@
 </head>
 <body>
     <?php
-    session_start();
     include('../static/header.html');
     ?>
     <div class="matchs-page-container">

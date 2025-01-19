@@ -1,5 +1,7 @@
 <?php
     require '../Controleurs/matchsControleur.php';
+    require '../Controleurs/redirectionControleur.php';
+    
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -11,7 +13,6 @@
 </head>
 <body>
     <?php
-    session_start();
     include('../static/header.html');
     ?>
     <div class="matchs-page-container">

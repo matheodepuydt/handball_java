@@ -1,6 +1,7 @@
 <?php
     require '../Controleurs/joueursControleur.php';
-    require '../classes/joueur.php'
+    require '../classes/joueur.php';
+    require '../Controleurs/redirectionControleur.php';
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +15,6 @@
 <body>
 
     <?php
-    session_start();
     include('../static/header.html');
     ?>
     

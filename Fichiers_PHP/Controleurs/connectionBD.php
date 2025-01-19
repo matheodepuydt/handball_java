@@ -1,4 +1,7 @@
 <?php
+
+require '../Controleurs/redirectionControleur.php';
+
 class connectionBD {
     private static $instance = null;
     private $connection;

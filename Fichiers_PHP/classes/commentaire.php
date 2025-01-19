@@ -1,4 +1,6 @@
 <?php
+require '../Controleurs/redirectionControleur.php';
+
 class Commentaire {
     private string $description;
     private string $date_commentaire;

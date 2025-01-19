@@ -1,6 +1,7 @@
 <?php
     require_once '../classes/rencontre.php';
     require_once '../Controleurs/matchsControleur.php';
+    require '../Controleurs/redirectionControleur.php';
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +15,6 @@
 <body>
     <?php
         include('../static/header.html');
-        session_start();
         
         // Initialisation des variables pour éviter des erreurs si le formulaire n'est pas soumis
         $date_heure = $nom_adversaire = $lieu = $domicile = $resultat = "";

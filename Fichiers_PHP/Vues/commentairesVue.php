@@ -1,6 +1,7 @@
 <?php
     require '../Controleurs/joueursControleur.php';
     require '../classes/commentaire.php';
+    require '../Controleurs/redirectionControleur.php';
 
     if (!isset($_GET['licence'])) {
         die("Erreur : aucun match sélectionné !");
@@ -19,7 +20,6 @@
 </head>
 <body>
     <?php
-    session_start();
     include('../static/header.html');
     ?>
     <div class="matchs-page-container">

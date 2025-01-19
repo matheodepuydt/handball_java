@@ -1,5 +1,6 @@
 <?php
     require '../Controleurs/statistiquesControleur.php';
+    require '../Controleurs/redirectionControleur.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -12,7 +13,6 @@
 <body>
     <?php
     include('../static/header.html');  
-    session_start();
     ?>
     <div class="players-page-container">
         <h1>Statistiques</h1>

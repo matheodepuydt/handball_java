@@ -1,4 +1,6 @@
 <?php
+require '../Controleurs/redirectionControleur.php';
+
 class Rencontre {
 
     private $date_heure;

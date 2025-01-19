@@ -1,6 +1,7 @@
 <?php
     require '../classes/joueur.php';
     require '../Controleurs/joueursControleur.php';
+    require '../Controleurs/redirectionControleur.php';
 ?>
 
 <!DOCTYPE html>
@@ -13,9 +14,7 @@
 </head>
 <body>
     <?php
-    include('../static/header.html');
-    session_start();
-    
+    include('../static/header.html');    
 
     // Initialisation des variables pour éviter des erreurs si le formulaire n'est pas soumis
     $nom = $prenom = $date_de_naissance = $taille = $poids = $num_licence = $statut = "";

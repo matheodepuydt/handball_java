@@ -1,4 +1,6 @@
 <?php
+require '../Controleurs/redirectionControleur.php';
+
 class Joueur {
 
     private $nom;

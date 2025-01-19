@@ -30,10 +30,10 @@ CREATE TABLE Commentaire (
 
 -- Table Rencontre
 CREATE TABLE Rencontre (
-    date_heure VARCHAR(50) PRIMARY KEY,
+    date_heure DATETIME PRIMARY KEY,
     nom_adversaire VARCHAR(50) NOT NULL,
     lieu VARCHAR(50),
-    domicile BOOLEAN NOT NULL,
+    domicile VARCHAR(20) NOT NULL,
     resultat VARCHAR(50)
 );
 
@@ -46,7 +46,7 @@ CREATE TABLE Authentification (
 -- Table Participer
 CREATE TABLE Participer (
     num_licence CHAR(13),
-    date_heure VARCHAR(50),
+    date_heure DATETIME,
     titulaire BOOLEAN NOT NULL,
     note TINYINT,
     poste VARCHAR(50),
@@ -54,12 +54,5 @@ CREATE TABLE Participer (
     FOREIGN KEY (num_licence) REFERENCES Joueur(num_licence) ON DELETE CASCADE,
     FOREIGN KEY (date_heure) REFERENCES Rencontre(date_heure) ON DELETE CASCADE
 );
-
--- Insertion des données de test dans Authentification
-INSERT INTO Authentification (login, password)
-VALUES 
-('admin', 'admin'),
-('Coach', 'Carter'),
-('Onesta', 'Claude');
 
 COMMIT;

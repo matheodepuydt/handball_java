@@ -1,5 +1,6 @@
 <?php
 require '../Controleurs/matchsControleur.php';
+require '../Controleurs/redirectionControleur.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $controleur = new matchsControleur();

@@ -1,4 +1,7 @@
 <?php
+
+require '../Controleurs/redirectionControleur.php';
+
 if (!isset($_GET['message']) || !isset($_GET['return'])) {
     die("Erreur : paramètres manquants !");
 }
