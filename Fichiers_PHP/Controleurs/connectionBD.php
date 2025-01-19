@@ -6,9 +6,9 @@ class connectionBD {
     private static $instance = null;
     private $connection;
 
-    private $server = 'localhost';
-    private $bd = 'phphandball';
-    private $db_login = 'admin';
+    private $server = 'mysql-beth.alwaysdata.net';
+    private $bd = 'beth_phphandball';
+    private $db_login = 'beth';
     private $db_password = '$iutinfo';
 
     /**
