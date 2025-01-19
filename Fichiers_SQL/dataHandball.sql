@@ -42,7 +42,7 @@ VALUES
 ('2024-12-05 20:00:00', 'Team B', 'Stade Olympique', 'exterieur', 'Défaite'),
 ('2024-11-01 16:30:00', 'Team C', 'Stade Régional', 'domicile', NULL),
 ('2024-10-15 19:00:00', 'Team D', 'Stade Urbain', 'exterieur', NULL),
-('2025-01-20 15:00:00', 'Team E', 'Stade Central', 'domicile', NULL),
+('2025-04-20 15:00:00', 'Team E', 'Stade Central', 'domicile', NULL),
 ('2025-02-01 17:00:00', 'Team F', 'Stade des Arènes', 'exterieur', NULL),
 ('2024-09-20 18:00:00', 'Team G', 'Stade de la Ville', 'domicile', 'Victoire'),
 ('2025-03-10 20:00:00', 'Team H', 'Stade Grand Nord', 'exterieur', NULL),

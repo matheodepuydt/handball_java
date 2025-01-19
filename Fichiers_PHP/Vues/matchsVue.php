@@ -57,7 +57,7 @@
                         
                         <td>
                             <a href='supprimerMatchVue.php?date_heure={$date_heure}'>
-                                <button type='button'>Supprimer</button>
+                                <button type='button' " . ($estPasse ? "disabled" : "") . ">Supprimer</button>
                             </a>
                         </td>
 
