@@ -1,6 +1,6 @@
 <?php
     require '../Controleurs/joueursControleur.php';
-    require '../classes/joueur.php'
+    require '../classes/joueur.php';
 ?>
 
 <!DOCTYPE html>
