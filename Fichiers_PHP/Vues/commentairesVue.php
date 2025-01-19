@@ -3,6 +3,10 @@
     require '../classes/commentaire.php';
     require '../Controleurs/redirectionControleur.php';
 
+    if (isset($_GET['feuille'])) {
+        $feuille = $_GET['feuille'];
+    }
+
     if (!isset($_GET['licence'])) {
         die("Erreur : aucun match sélectionné !");
     } else {
@@ -49,7 +53,7 @@
         </tbody>
         </table>
         <div class="add-match-section">
-            <a href="selectionVue.php">
+            <a href="selectionVue.php?feuille=<?php echo $feuille; ?>">
                 <input type="button" value="Retour"/>
             </a>
         </div>

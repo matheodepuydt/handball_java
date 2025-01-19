@@ -15,7 +15,7 @@ class Participer {
         $this->poste=$poste;
     }
 
-    public function getNumLicence(){
+    public function getNum_licence(){
         return $this->num_licence;
     }
 

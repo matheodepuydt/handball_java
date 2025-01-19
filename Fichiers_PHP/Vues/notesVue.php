@@ -2,6 +2,10 @@
     require '../Controleurs/matchsControleur.php';
     require '../Controleurs/redirectionControleur.php';
 
+    if (isset($_GET['feuille'])) {
+        $feuille = $_GET['feuille'];
+    }
+
     if (!isset($_GET['licence'])) {
         die("Erreur : aucun match sélectionné !");
     } else {
@@ -36,20 +40,23 @@
         <?php
             $controleur = new matchsControleur();
             $notes = $controleur->getNotes($licence);
+            $dateActuelle = date('Y-m-d H:i'); // Date et heure actuelles
             
             foreach ($notes as $note) {
-
-                echo "<tr>
+                $estPasse = strtotime($note['date_heure']) < strtotime($dateActuelle); // Comparaison des dates
+                if($estPasse){
+                    echo "<tr>
                         <td>{$note['date_heure']}</td>
                         <td>{$note['nom_adversaire']}</td>
                         <td>{$note['note']}</td>
                     </tr>";
+                }
             }
         ?>
         </tbody>
         </table>
         <div class="add-match-section">
-            <a href="selectionVue.php">
+            <a href="selectionVue.php?feuille=<?php $feuille ?>">
                 <input type="button" value="Retour"/>
             </a>
         </div>

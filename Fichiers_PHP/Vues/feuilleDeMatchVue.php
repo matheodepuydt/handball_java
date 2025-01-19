@@ -1,27 +1,55 @@
 <?php
+require_once '../classes/participer.php';
 require '../Controleurs/joueursControleur.php';
 require '../Controleurs/matchsControleur.php';
 require '../classes/joueur.php';
 require '../Controleurs/redirectionControleur.php';
-require '../classes/participer.php';
+
 
 //session_start();
 
 $controleurJoueur = new controleurJoueurs();
 $controleurMatch = new matchsControleur();
 
-// Initialiser la liste des titulaires et des remplaçants si elles ne sont pas déjà définies dans la session
 if (!isset($_SESSION['titulaires'])) {
     $_SESSION['titulaires'] = [];
 }
 if (!isset($_SESSION['remplacants'])) {
     $_SESSION['remplacants'] = [];
 }
+if (!isset($_GET['feuille'])) {
+    $_GET['feuille'] = "";
+}
+
+// Vérifier si le formulaire a été soumis avec les nouvelles notes
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Mettre à jour la note de chaque titulaire
+    foreach ($_SESSION['titulaires'] as &$participer) {
+        // Vérifier si une note a été soumise pour ce joueur
+        if (isset($_POST['note_' . $participer->getNum_licence()])) {
+            $nouvelleNote = htmlspecialchars($_POST['note_' . $participer->getNum_licence()]);
+            // Mettre à jour la note du joueur
+            $participer->setNote($nouvelleNote);
+        }
+    }
+    
+    // Mettre à jour la note de chaque remplaçant
+    foreach ($_SESSION['remplacants'] as &$participer) {
+        // Vérifier si une note a été soumise pour ce joueur
+        if (isset($_POST['note_' . $participer->getNum_licence()])) {
+            $nouvelleNote = htmlspecialchars($_POST['note_' . $participer->getNum_licence()]);
+            // Mettre à jour la note du joueur
+            $participer->setNote($nouvelleNote);
+        }
+    }
+}
+
+
 
 if (isset($_GET['date_heure'])) {
     $_SESSION['date_heure'] = htmlspecialchars($_GET['date_heure']);
-    $_SESSION['titulaires'] = [];
-    $_SESSION['remplacants'] = [];
+    $_SESSION['titulaires'] = $controleurMatch->getAllParticipationsTitulaires($_SESSION['date_heure']);
+    $_SESSION['remplacants'] = $controleurMatch->getAllParticipationsRemplacants($_SESSION['date_heure']);
 }
 
 $dateActuelle = date('Y-m-d H:i'); // Date et heure actuelles
@@ -78,16 +106,16 @@ if (isset($_GET['licence'])) {
     if (!$joueurDejaDansListeTitulaire && $_GET['feuille'] == 'titulaire') {
         // Vérifier si le nombre de titulaires est inférieur à 7
         if (count($_SESSION['titulaires']) < 7) {
-            $joueur = $controleurJoueur->getJoueur($licence);
-            $_SESSION['titulaires'][] = serialize($joueur);
+            $participer = new Participer($licence,$_SESSION['date_heure'],1,null,null);
+            $_SESSION['titulaires'][] = $participer;
         } else {
             echo "<p>Le nombre de titulaires ne peut pas dépasser 7.</p>";
         }
     } elseif (!$joueurDejaDansListeRemplacant && $_GET['feuille'] == 'remplacant') {
         // Vérifier si le nombre de remplaçants est inférieur à 7
         if (count($_SESSION['remplacants']) < 7) {
-            $joueur = $controleurJoueur->getJoueur($licence);
-            $_SESSION['remplacants'][] = serialize($joueur);
+            $participer = new Participer($licence,$_SESSION['date_heure'],0,null,null);
+            $_SESSION['remplacants'][] = $participer;
         } else {
             echo "<p>Le nombre de remplaçants ne peut pas dépasser 7.</p>";
         }
@@ -113,8 +141,7 @@ if (isset($_GET['licence'])) {
         if (count($_SESSION['titulaires']) != 7) {
             echo "<p class='error-message'>Il doit y avoir exactement 7 titulaires pour valider la feuille de match.</p>";
         } else {
-            // Code pour rediriger ou continuer l'action après la validation
-            $participer = new Participer();
+            $controleurMatch->updateParticipers($_SESSION['titulaires'], $_SESSION['remplacants'], $_SESSION['date_heure']);
             header('Location: matchsVue.php');
             exit();
         }
@@ -135,48 +162,43 @@ if (isset($_GET['licence'])) {
                         <th>Poste</th>
                         <th></th>
                         <th>Note</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    if (!is_array($_SESSION['titulaires'])) {
-                        $_SESSION['titulaires'] = [];
-                    }
 
                     // Récupérer les titulaires depuis la session
-                    foreach ($_SESSION['titulaires'] as &$joueur) {
-                        if (is_string($joueur)) { // Vérifie si l'élément est une chaîne et donc sérialisé
-                            $joueur = unserialize($joueur);
+                    foreach ($_SESSION['titulaires'] as &$participer) {
+                        if (is_string($participer)) { // Vérifie si l'élément est une chaîne et donc sérialisé
+                            $participer = unserialize($participer);
                         }
-                        echo "<tr>
-                                <td>{$joueur->getNom()}</td>
-                                <td>{$joueur->getPrenom()}</td>
-                                <td>
-                                    <select class='select-ajouter-joueur' name='poste' $matchDansLePasse>
-                                        <option value='Gardien'>Gardien</option>
-                                        <option value='Ailier gauche'>Ailier gauche</option>
-                                        <option value='Arrière gauche'>Arrière gauche</option>
-                                        <option value='Demi centre'>Demi centre</option>
-                                        <option value='Arrière droit'>Arrière droit</option>
-                                        <option value='Ailier droit'>Ailier droit</option>
-                                        <option value='Pivot'>Pivot</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <a href='feuilleDeMatchVue.php?retirerTitulaire={$joueur->getNum_licence()}'>
-                                        <button type='button' $matchDansLePasse>Retirer</button>
-                                    </a>
-                                </td>
-                                <td>
-                                    <select class='select-ajouter-joueur' name='note' $matchDansLePasse>
-                                        <option value='1'>1</option>
-                                        <option value='2'>2</option>
-                                        <option value='3'>3</option>
-                                        <option value='4'>4</option>
-                                        <option value='5'>5</option>
-                                    </select>
-                                </td>
-                            </tr>";
+                        $joueur = $controleurJoueur->getJoueur($participer->getNum_licence());
+                        echo "<form method='POST' action='feuilleDeMatchVue.php'>
+                                <tr>
+                                    <td>{$joueur->getNom()}</td>
+                                    <td>{$joueur->getPrenom()}</td>
+                                    <td>{$participer->getPoste()}</td>
+                                    <td>
+                                        <a href='changerDePosteVue.php?licence={$joueur->getNum_licence()}&date_heure={$_SESSION['date_heure']}'>
+                                            <button type='button' $matchDansLePasse>Changer de poste</button>
+                                        </a>
+                                    </td>
+                                    <td>{$participer->getNote()}</td>
+                                    <td>
+                                        <a href='feuilleDeMatchVue.php?licence={$joueur->getNum_licence()}'>
+                                            <button type='button' $matchDansLePasse>Évaluer</button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href='feuilleDeMatchVue.php?retirerTitulaire={$joueur->getNum_licence()}'>
+                                            <button type='button' $matchDansLePasse>Retirer</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </form>
+                            ";
                     }
                     ?>
                 </tbody>
@@ -206,6 +228,8 @@ if (isset($_GET['licence'])) {
                         <th>Poste</th>
                         <th></th>
                         <th>Note</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -216,40 +240,48 @@ if (isset($_GET['licence'])) {
                     }
 
                     // Récupérer les remplaçants depuis la session
-                    foreach ($_SESSION['remplacants'] as &$joueur) {
-                        if (is_string($joueur)) { // Vérifie si l'élément est une chaîne et donc sérialisé
-                            $joueur = unserialize($joueur);
+                    foreach ($_SESSION['remplacants'] as &$participer) {
+                        if (is_string($participer)) { // Vérifie si l'élément est une chaîne et donc sérialisé
+                            $participer = unserialize($participer);
                         }
-                        echo "<tr>
-                                <td>{$joueur->getNom()}</td>
-                                <td>{$joueur->getPrenom()}</td>
-                                <td>
-                                    <select class='select-ajouter-joueur' name='poste'>
-                                        <option value='Gardien'>Gardien</option>
-                                        <option value='Ailier gauche'>Ailier gauche</option>
-                                        <option value='Arrière gauche'>Arrière gauche</option>
-                                        <option value='Demi centre'>Demi centre</option>
-                                        <option value='Arrière droit'>Arrière droit</option>
-                                        <option value='Ailier droit'>Ailier droit</option>
-                                        <option value='Pivot'>Pivot</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <a href='feuilleDeMatchVue.php?retirerRemplacant={$joueur->getNum_licence()}'>
-                                        <button type='button'$matchDansLePasse>Retirer</button>
-                                    </a>
-                                </td>
-                                <td>
-                                    <select class='select-ajouter-joueur' name='note'>
-                                        <option value=''></option>
-                                        <option value='1'>1</option>
-                                        <option value='2'>2</option>
-                                        <option value='3'>3</option>
-                                        <option value='4'>4</option>
-                                        <option value='5'>5</option>
-                                    </select>
-                                </td>
-                            </tr>";
+                        $joueur = $controleurJoueur->getJoueur($participer->getNum_licence());
+                        echo "<form method='POST' action='feuilleDeMatchVue.php'>
+                                <tr>
+                                    <td>{$joueur->getNom()}</td>
+                                    <td>{$joueur->getPrenom()}</td>
+                                    <td>
+                                        <select class='select-ajouter-joueur' name='poste' " . ($estPasse ? "disabled" : "") . ">
+                                            <option value='Gardien' " . ($participer->getPoste() == 'Gardien' ? 'selected' : '') . ">Gardien</option>
+                                            <option value='Ailier gauche' " . ($participer->getPoste() == 'Ailier gauche' ? 'selected' : '') . ">Ailier gauche</option>
+                                            <option value='Arrière gauche' " . ($participer->getPoste() == 'Arrière gauche' ? 'selected' : '') . ">Arrière gauche</option>
+                                            <option value='Demi centre' " . ($participer->getPoste() == 'Demi centre' ? 'selected' : '') . ">Demi centre</option>
+                                            <option value='Arrière droit' " . ($participer->getPoste() == 'Arrière droit' ? 'selected' : '') . ">Arrière droit</option>
+                                            <option value='Ailier droit' " . ($participer->getPoste() == 'Ailier droit' ? 'selected' : '') . ">Ailier droit</option>
+                                            <option value='Pivot' " . ($participer->getPoste() == 'Pivot' ? 'selected' : '') . ">Pivot</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <a href='feuilleDeMatchVue.php?retirerRemplacant={$joueur->getNum_licence()}'>
+                                            <button type='button' $matchDansLePasse>Retirer</button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <select class='select-ajouter-joueur' name='note_".$participer->getNum_licence() . "' " . (!$estPasse ? "disabled" : "") . ">
+                                            <option value=''" . ($participer->getNote() == '0' ? 'selected' : '') . "></option>
+                                            <option value='1'" . ($participer->getNote() == '1' ? 'selected' : '') . ">1</option>
+                                            <option value='2'" . ($participer->getNote() == '2' ? 'selected' : '') . ">2</option>
+                                            <option value='3'" . ($participer->getNote() == '3' ? 'selected' : '') . ">3</option>
+                                            <option value='4'" . ($participer->getNote() == '4' ? 'selected' : '') . ">4</option>
+                                            <option value='5'" . ($participer->getNote() == '5' ? 'selected' : '') . ">5</option>
+                                        </select>
+
+                                    </td>
+                                    <td>
+                                        <input type='hidden' name='licence_". ($participer->getNum_licence())."' value='". ($participer->getNum_licence())."' />
+                                    </td>
+                                </tr>
+                            </form>
+                            ";
                     }                
                     ?>
                 </tbody>

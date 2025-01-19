@@ -82,7 +82,7 @@ class controleurStat{
         $db = connectionBD::getInstance()->getConnection();
 
         // Préparation de la requête
-        $stmt = $db->prepare('SELECT avg(note) as total FROM participer where num_licence = :num_licence');
+        $stmt = $db->prepare('SELECT avg(note) as total FROM participer where num_licence = :num_licence and note != 0');
         $stmt->execute([':num_licence' => $num_licence]);
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);

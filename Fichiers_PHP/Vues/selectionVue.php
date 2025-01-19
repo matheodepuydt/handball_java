@@ -1,4 +1,5 @@
 <?php
+    require_once '../classes/participer.php';
     require '../Controleurs/joueursControleur.php';
     require '../classes/joueur.php';
     require '../Controleurs/redirectionControleur.php';
@@ -66,12 +67,12 @@
                             <td>{$joueur->getTaille()}</td>
                             <td>{$joueur->getPoids()}</td>
                             <td>
-                                <a href='commentairesVue.php?licence=$numLicence'>
+                                <a href='commentairesVue.php?licence=$numLicence&feuille=$feuille'>
                                     <button type='button'>Commentaires</button>
                                 </a>
                             </td>
                             <td>
-                                <a href='notesVue.php?licence=$numLicence'>
+                                <a href='notesVue.php?licence=$numLicence&feuille=$feuille'>
                                     <button type='button'>Notes</button>
                                 </a>
                             </td>
