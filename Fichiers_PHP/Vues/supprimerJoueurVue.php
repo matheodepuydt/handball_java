@@ -5,9 +5,14 @@ require '../Controleurs/redirectionControleur.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $controleur = new controleurJoueurs();
     $numLicence = $_POST['licence'];
-    $controleur->deleteJoueur($numLicence);
-    header("Location: page_joueursVue.php");
-    exit();
+    if ($controleur->aParticipeAMatch($numLicence)){
+        echo "<div class='error-message'>Vous ne pouvez pas supprimer ce joueur, il a déjà participé à un match</div>";
+    } else {
+        $controleur->deleteJoueur($numLicence);
+        header("Location: page_joueursVue.php");
+        exit();
+    }
+    
 }
 
 if (isset($_GET['licence'])) {

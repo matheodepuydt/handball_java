@@ -191,6 +191,24 @@ class controleurJoueurs{
     
         return $commentaires;
     }
+
+    public function aParticipeAMatch($num_licence) {
+        $db = connectionBD::getInstance()->getConnection();
+    
+        // Préparation de la requête
+        $stmt = $db->prepare('
+            SELECT COUNT(*) AS total 
+            FROM participer 
+            WHERE num_licence = :num_licence
+        ');
+    
+        $stmt->execute([':num_licence' => $num_licence]);
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return ($result && $result['total'] > 0);
+    }
+    
     
 }
 
