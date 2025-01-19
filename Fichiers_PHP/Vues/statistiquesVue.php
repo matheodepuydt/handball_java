@@ -48,7 +48,9 @@
                     <th>Poste préféré</th>
                     <th>Titularisations</th>
                     <th>Remplacements</th>
+                    <th>Matchs consécutifs</th>
                     <th>Note moyenne</th>
+                    <th>Pourcentage de victoires</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,6 +63,8 @@
                     $titularisation = $controleur->getNbTitularisations($numLicence);
                     $remplacements = $controleur->getNbRemplacements($numLicence);
                     $moyenne =round($controleur->getMoyenneNote($numLicence),1);
+                    $nbConsecutifs = $controleur->getNbMatchsConsecutifs($numLicence);
+                    $pourcentageVictoiresJoueur = round($controleur->calculPourcentageVictoiresJoueur($numLicence),2);
                     echo "<tr>
                             <td>{$joueur['nom']}</td>
                             <td>{$joueur['prenom']}</td>
@@ -68,7 +72,9 @@
                             <td>$poste</td>
                             <td>$titularisation</td>
                             <td>$remplacements</td>
+                            <td>$nbConsecutifs</td>
                             <td>$moyenne</td>
+                            <td>$pourcentageVictoiresJoueur%</td>
                           </tr>";
                 }
                 ?>

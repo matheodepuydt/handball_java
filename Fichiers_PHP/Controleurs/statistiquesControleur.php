@@ -100,7 +100,7 @@ class controleurStat{
                             and date_heure in (
                                 select date_heure
                                 from participer
-                                where num_licence = :num_licence');
+                                where num_licence = :num_licence)');
         $stmt->execute([':num_licence' => $num_licence]);
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -117,7 +117,7 @@ class controleurStat{
                             where date_heure in (
                                 select date_heure
                                 from participer
-                                where num_licence = :num_licence');
+                                where num_licence = :num_licence)');
         $stmt->execute([':num_licence' => $num_licence]);
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -127,8 +127,9 @@ class controleurStat{
 
     public function calculPourcentageVictoiresJoueur($num_licence){
         $controleur = new controleurStat();
+        $nbVictoires = $controleur->getNbVictoiresJoueur($num_licence);
         $nbTotal = $controleur->getNbMatchsJoueur($num_licence)+$controleur->getNbVictoiresJoueur($num_licence);
-        $pourcentageVictoires = ($totalMatchs > 0) ? ($nbVictoires / $totalMatchs) * 100 : 0;
+        $pourcentageVictoires = ($nbTotal > 0) ? ($nbVictoires / $nbTotal) * 100 : 0;
         return $pourcentageVictoires;
     }
 
@@ -152,6 +153,35 @@ class controleurStat{
             return null; // Aucun poste trouvé
         }
     }
+
+    public function getNbMatchsConsecutifs($num_licence) {
+        $db = connectionBD::getInstance()->getConnection();
+    
+        // Préparation de la requête
+        $stmt = $db->prepare('WITH matchs_joues AS (
+                SELECT date_heure
+                FROM participer
+                WHERE num_licence = :num_licence
+            ),
+            derniere_absence AS (
+                SELECT MAX(date_heure) AS derniere_absence
+                FROM Rencontre
+                WHERE date_heure NOT IN (SELECT date_heure FROM matchs_joues)
+                AND date_heure < NOW()
+            )
+            SELECT COUNT(*) AS nb_matchs_consecutifs
+            FROM matchs_joues
+            WHERE date_heure > (SELECT derniere_absence FROM derniere_absence) 
+            AND date_heure < NOW();
+        ');
+    
+        $stmt->execute([':num_licence' => $num_licence]);
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $result ? $result['nb_matchs_consecutifs'] : 0;
+    }
+    
 
 }
 
