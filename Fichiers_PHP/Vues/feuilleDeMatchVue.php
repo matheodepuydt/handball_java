@@ -15,7 +15,7 @@ if (!isset($_SESSION['remplacants'])) {
 }
 
 if (isset($_GET['date_heure'])) {
-    $date_heure = htmlspecialchars($_GET['date_heure']);
+    $_SESSION['date_heure'] = htmlspecialchars($_GET['date_heure']);
 }
 
 if (isset($_GET['retirerTitulaire'])) {
@@ -65,12 +65,12 @@ if (isset($_GET['licence'])) {
     }
     
     // Ajouter le joueur aux titulaires ou remplaçants en fonction de la catégorie
-    if (!$joueurDejaDansListeTitulaire && $_GET['licence'] == 'titulaire') {
+    if (!$joueurDejaDansListeTitulaire && $_GET['feuille'] == 'titulaire') {
         $joueur = $controleur->getJoueur($licence);
-        $_SESSION['titulaires'][] = $joueur;
-    } elseif (!$joueurDejaDansListeRemplacant && $_GET['licence'] == 'remplacant') {
+        $_SESSION['titulaires'][] = serialize($joueur);
+    } elseif (!$joueurDejaDansListeRemplacant && $_GET['feuille'] == 'remplacant') {
         $joueur = $controleur->getJoueur($licence);
-        $_SESSION['remplacants'][] = $joueur;
+        $_SESSION['remplacants'][] = serialize($joueur);
     }
 }
 ?>
@@ -107,8 +107,15 @@ if (isset($_GET['licence'])) {
             </thead>
             <tbody>
                 <?php
+                if (!is_array($_SESSION['titulaires'])) {
+                    $_SESSION['titulaires'] = [];
+                }
+
                 // Récupérer les titulaires depuis la session
-                foreach ($_SESSION['titulaires'] as $joueur) {
+                foreach ($_SESSION['titulaires'] as &$joueur) {
+                    if (is_string($joueur)) { // Vérifie si l'élément est une chaîne et donc sérialisé
+                        $joueur = unserialize($joueur);
+                    }
                     echo "<tr>
                             <td>{$joueur->getNom()}</td>
                             <td>{$joueur->getPrenom()}</td>
@@ -137,13 +144,13 @@ if (isset($_GET['licence'])) {
                                     <option value='5'>5</option>
                                 </select>
                             </td>
-                          </tr>";
+                        </tr>";
                 }
                 ?>
             </tbody>
         </table>
         <div class="add-player-section">
-            <a href="selectionVue.php?licence=titulaire">
+            <a href="selectionVue.php?feuille=titulaire">
                 <input type="button" value="Ajouter"/>
             </a>
         </div>
@@ -165,8 +172,16 @@ if (isset($_GET['licence'])) {
             </thead>
             <tbody>
                 <?php
+
+                if (!is_array($_SESSION['remplacants'])) {
+                    $_SESSION['remplacants'] = [];
+                }
+
                 // Récupérer les remplaçants depuis la session
-                foreach ($_SESSION['remplacants'] as $joueur) {
+                foreach ($_SESSION['remplacants'] as &$joueur) {
+                    if (is_string($joueur)) { // Vérifie si l'élément est une chaîne et donc sérialisé
+                        $joueur = unserialize($joueur);
+                    }
                     echo "<tr>
                             <td>{$joueur->getNom()}</td>
                             <td>{$joueur->getPrenom()}</td>
@@ -186,13 +201,22 @@ if (isset($_GET['licence'])) {
                                     <button type='button'>Retirer</button>
                                 </a>
                             </td>
+                            <td>
+                                <select class='select-ajouter-joueur' name='note'>
+                                    <option value='1'>1</option>
+                                    <option value='2'>2</option>
+                                    <option value='3'>3</option>
+                                    <option value='4'>4</option>
+                                    <option value='5'>5</option>
+                                </select>
+                            </td>
                           </tr>";
-                }
+                }                
                 ?>
             </tbody>
         </table>
         <div class="add-player-section">
-            <a href="selectionVue.php?licence=remplacant">
+            <a href="selectionVue.php?feuille=remplacant">
                 <input type="button" value="Ajouter"/>
             </a>
         </div>
