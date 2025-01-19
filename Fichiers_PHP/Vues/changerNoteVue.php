@@ -5,10 +5,10 @@
     // Traitement du formulaire si une soumission a été effectuée
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Récupération des données du formulaire
-        $poste = htmlspecialchars($_POST['poste']);
+        $note = htmlspecialchars($_POST['note']);
         $num_licence = htmlspecialchars($_POST['num_licence']);
 
-        header("Location: feuilleDeMatchVue.php?poste=" . urlencode($poste) . "&num_licence=" . urlencode($num_licence));
+        header("Location: feuilleDeMatchVue.php?note=" . urlencode($note) . "&num_licence=" . urlencode($num_licence));
         exit(); // Important pour arrêter l'exécution après la redirection
 
     }
@@ -35,27 +35,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/style.css">
-    <title>Changer de poste</title>
+    <title>Mettre une Note</title>
 </head>
 <body>
     <?php include('../static/header.html'); ?>
     
 <div class='form-ajouter-match-container'>
-        <h1>Changer de poste</h1>
+        <h1>Mettre une Note</h1>
         <form action='' method='post'>
 
             <input class="input-ajouter-match" type="hidden" name="date_heure" id="date_heure" value=
             '<?php echo htmlspecialchars($participer->getDate()); ?>' required />
 
-            <label class='label-ajouter-match' for='poste'>Choisir un nouveau Poste :</label>
-            <select class='select-ajouter-joueur' name='poste'>
-                <option value='Gardien'. <?php $participer->getPoste() == 'Gardien' ? 'select' : ''; ?>>Gardien</option>
-                <option value='Ailier gauche'. <?php $participer->getPoste() == 'Ailier gauche' ? 'select' : ''; ?>>Ailier gauche</option>
-                <option value='Arrière gauche'. <?php $participer->getPoste() == 'Arrière gauche' ? 'select' : ''; ?>>Arrière gauche</option>
-                <option value='Demi centre'. <?php $participer->getPoste() == 'Demi centre' ? 'select' : ''; ?>>Demi centre</option>
-                <option value='Arrière droit'. <?php $participer->getPoste() == 'Arrière droit' ? 'select' : ''; ?>>Arrière droit</option>
-                <option value='Ailier droit'. <?php $participer->getPoste() == 'Ailier droit' ? 'select' : ''; ?>>Ailier droit</option>
-                <option value='Pivot'. <?php $participer->getPoste() == 'Pivot' ? 'select' : ''; ?>>Pivot</option>
+            <label class='label-ajouter-match' for='note'>Choix de la Note :</label>
+            <select class='select-ajouter-joueur' name='note'>
+                <option value='1'. <?php $participer->getNote() == '1' ? 'select' : ''; ?>>1</option>
+                <option value='2'. <?php $participer->getNote() == '2' ? 'select' : ''; ?>>2</option>
+                <option value='3'. <?php $participer->getNote() == '3' ? 'select' : ''; ?>>3</option>
+                <option value='4'. <?php $participer->getNote() == '4' ? 'select' : ''; ?>>4</option>
+                <option value='5'. <?php $participer->getNote() == '5' ? 'select' : ''; ?>>5</option>
             </select>
 
             <input class="input-ajouter-match" type="hidden" name="num_licence" id="num_licence" value=

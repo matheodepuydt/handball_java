@@ -1,0 +1,12 @@
+URL du site : beth.alwaysdata.net
+
+Description
+
+	En suivant ce lien, découvrez le site conçu par Mathéo Depuydt et Maxence Beth, dédié à la création d'une application de gestion d'équipe de handball.
+
+Identifiants disponibles pour la connection : 
+
+	- ID = admin; password = admin
+	- ID = Coach; password = Carter
+	- ID = Onesta; password = Claude
+

@@ -39,5 +39,9 @@ class Participer {
         $this->note = $note;
     }
 
+    public function setPoste(String $poste){
+        $this->poste = $poste;
+    }
+
 }
 ?>
