@@ -1,11 +1,10 @@
 <?php
-require '../Controleurs/redirectionControleur.php';
 
 // Connexion à la base de données
-$server = 'localhost';
-$bd = 'phphandball';
-$db_login = 'admin';
-$db_password = '$iutinfo';
+    $server = 'mysql-beth.alwaysdata.net';
+    $bd = 'beth_phphandball';
+    $db_login = 'beth';
+    $db_password = '$iutinfo';
 
 try {
     $linkpdo = new PDO("mysql:host=$server;dbname=$bd", $db_login, $db_password);

@@ -165,7 +165,7 @@ class controleurStat{
             ),
             derniere_absence AS (
                 SELECT MAX(date_heure) AS derniere_absence
-                FROM Rencontre
+                FROM rencontre
                 WHERE date_heure NOT IN (SELECT date_heure FROM matchs_joues)
                 AND date_heure < NOW()
             )

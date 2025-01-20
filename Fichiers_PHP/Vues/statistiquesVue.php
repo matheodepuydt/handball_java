@@ -62,7 +62,11 @@
                     $poste = $controleur->getPostePrefereJoueur($numLicence);
                     $titularisation = $controleur->getNbTitularisations($numLicence);
                     $remplacements = $controleur->getNbRemplacements($numLicence);
-                    $moyenne =round($controleur->getMoyenneNote($numLicence),1);
+                    if ($controleur->getMoyenneNote($numLicence) == null){
+                        $moyenne = 0;
+                    }else {
+                        $moyenne =round($controleur->getMoyenneNote($numLicence),1);
+                    }
                     $nbConsecutifs = $controleur->getNbMatchsConsecutifs($numLicence);
                     $pourcentageVictoiresJoueur = round($controleur->calculPourcentageVictoiresJoueur($numLicence),2);
                     echo "<tr>

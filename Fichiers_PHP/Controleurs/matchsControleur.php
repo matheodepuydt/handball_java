@@ -16,7 +16,7 @@ class matchsControleur {
         $db = connectionBD::getInstance()->getConnection();
 
         // Préparation de la requête
-        $stmt = $db->prepare('SELECT * from Rencontre');
+        $stmt = $db->prepare('SELECT * from rencontre');
         $stmt->execute();
 
         // Récupération du résultat de la requête
@@ -51,7 +51,7 @@ class matchsControleur {
         $db = connectionBD::getInstance()->getConnection();
 
         // Préparation de la requête
-        $stmt = $db->prepare('SELECT * from Rencontre WHERE date_heure = :date_heure ');
+        $stmt = $db->prepare('SELECT * from rencontre WHERE date_heure = :date_heure ');
         $stmt->bindParam(':date_heure', $date_heure, PDO::PARAM_STR);
         $stmt->execute();
 
@@ -94,7 +94,7 @@ class matchsControleur {
         }
 
         // Préparation de la requête
-        $stmt = $db->prepare('INSERT  INTO Rencontre (date_heure, nom_adversaire, lieu, domicile, resultat)
+        $stmt = $db->prepare('INSERT  INTO rencontre (date_heure, nom_adversaire, lieu, domicile, resultat)
         VALUES (:date_heure, :nom_adversaire,:lieu,:domicile,:resultat)');
 
         $date_heure = $rencontre->getDate();
@@ -124,7 +124,7 @@ class matchsControleur {
         $db = connectionBD::getInstance()->getConnection();
 
         // Préparation de la requête
-        $stmt = $db->prepare('UPDATE Rencontre SET nom_adversaire = :nom_adversaire, lieu = :lieu,
+        $stmt = $db->prepare('UPDATE rencontre SET nom_adversaire = :nom_adversaire, lieu = :lieu,
             domicile = :domicile, resultat = :resultat
             WHERE date_heure = :date_heure');
 
@@ -156,7 +156,7 @@ class matchsControleur {
         $db = connectionBD::getInstance()->getConnection();
 
         // Préparation de la requête
-        $stmt = $db->prepare('DELETE FROM Rencontre WHERE date_heure = :date_heure');
+        $stmt = $db->prepare('DELETE FROM rencontre WHERE date_heure = :date_heure');
 
         // On donne une valeur au paramètre
         $stmt->bindParam(':date_heure', $date_heure, PDO::PARAM_STR);

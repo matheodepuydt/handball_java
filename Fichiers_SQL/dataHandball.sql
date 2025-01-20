@@ -2,14 +2,14 @@ SET autocommit = 0;
 START TRANSACTION;
 
 -- Insertion des données dans Authentification
-INSERT INTO Authentification (login, password)
+INSERT INTO authentification (login, password)
 VALUES 
 ('admin', '$2y$10$WGu4pJ.X7hJuwk9yGcsVW.lqo1isC4QxbZERzhrPL0.JYIFA2NmqG'),
 ('Coach', '$2y$10$gpphJ3KW.z2Lcw.t7kiEZ./tHNwFs8hSqDPxwZ6f7zoRSeQVnrf9e'),
 ('Onesta', '$2y$10$wxsI1oqMYNJz7e0vlG5AMe.gy4yT3ifYYaiWmDhICl.hKcdStvhla');
 
 -- Insertion des joueurs
-INSERT INTO Joueur (num_licence, nom, prenom, date_de_naissance, taille, poids, statut)
+INSERT INTO joueur (num_licence, nom, prenom, date_de_naissance, taille, poids, statut)
 VALUES 
 ('1234567890123', 'Dupont', 'Pierre', '1990-05-10', 180, 75.5, 'Actif'),
 ('2345678901234', 'Martin', 'Jean', '1992-11-20', 175, 68.2, 'Blessé'),
@@ -27,7 +27,7 @@ VALUES
 ('4123456789016', 'Perrin', 'Alice', '1994-04-06', 165, 58.2, 'Actif');
 
 -- Insertion des commentaires
-INSERT INTO Commentaire (num_licence, date_commentaire, description)
+INSERT INTO commentaire (num_licence, date_commentaire, description)
 VALUES 
 ('1234567890123', '2025-01-10 14:30:00', 'Performance constante.'),
 ('2345678901234', '2025-01-12 09:45:00', 'Repos nécessaire.'),
@@ -36,7 +36,7 @@ VALUES
 ('5678901234567', '2025-01-16 10:20:00', 'Absent au dernier match.');
 
 -- Insertion des rencontres
-INSERT INTO Rencontre (date_heure, nom_adversaire, lieu, domicile, resultat)
+INSERT INTO rencontre (date_heure, nom_adversaire, lieu, domicile, resultat)
 VALUES 
 ('2024-12-01 18:00:00', 'Team A', 'Stade Municipal', 'domicile', 'Victoire'),
 ('2024-12-05 20:00:00', 'Team B', 'Stade Olympique', 'exterieur', 'Défaite'),
@@ -50,7 +50,7 @@ VALUES
 ('2024-11-22 19:30:00', 'Team J', 'Stade Maritime', 'exterieur', 'Défaite');
 
 -- Insertion des participations
-INSERT INTO Participer (num_licence, date_heure, titulaire, note, poste)
+INSERT INTO participer (num_licence, date_heure, titulaire, note, poste)
 VALUES 
 
 -- Match 1 (2024-12-01)
@@ -94,14 +94,14 @@ VALUES
 ('6789012345678', '2024-10-15 19:00:00', 0, 3, 'Gardien'),
 
 -- Match 5
-('7890123456789', '2025-01-20 15:00:00', 1, 0, 'Arrière Gauche'),
-('8901234567890', '2025-01-20 15:00:00', 1, 0, 'Gardien'),
-('9012345678901', '2025-01-20 15:00:00', 1, 0, 'Ailier Gauche'),
-('0123456789012', '2025-01-20 15:00:00', 1, 0, 'Arrière Droit'),
-('1123456789013', '2025-01-20 15:00:00', 1, 0, 'Pivot'),
-('2123456789014', '2025-01-20 15:00:00', 1, 0, 'Ailier Droit'),
-('3123456789015', '2025-01-20 15:00:00', 1, 0, 'Demi-Centre'),
-('4123456789016', '2025-01-20 15:00:00', 0, 0, 'Pivot'),
+('7890123456789', '2025-04-20 15:00:00', 1, 0, 'Arrière Gauche'),
+('8901234567890', '2025-04-20 15:00:00', 1, 0, 'Gardien'),
+('9012345678901', '2025-04-20 15:00:00', 1, 0, 'Ailier Gauche'),
+('0123456789012', '2025-04-20 15:00:00', 1, 0, 'Arrière Droit'),
+('1123456789013', '2025-04-20 15:00:00', 1, 0, 'Pivot'),
+('2123456789014', '2025-04-20 15:00:00', 1, 0, 'Ailier Droit'),
+('3123456789015', '2025-04-20 15:00:00', 1, 0, 'Demi-Centre'),
+('4123456789016', '2025-04-20 15:00:00', 0, 0, 'Pivot'),
 
 -- Match 6
 ('5678901234567', '2025-02-01 17:00:00', 1, 0, 'Ailier Droit'),
