@@ -21,9 +21,10 @@
         $date_heure = htmlspecialchars($_GET['date_heure']);
         $licence = htmlspecialchars($_GET['num_licence']);
         $participer = $controleur->getParticipation($date_heure,$licence);
+        $match = $controleur->getMatch($date_heure);
     }
 
-    if (!$participer) {
+    if (!$match) {
         die("Erreur : le match n'existe pas !");
     }
 
@@ -45,21 +46,21 @@
         <form action='' method='post'>
 
             <input class="input-ajouter-match" type="hidden" name="date_heure" id="date_heure" value=
-            '<?php echo htmlspecialchars($participer->getDate()); ?>' required />
+            '<?php echo htmlspecialchars($date_heure); ?>' required />
 
             <label class='label-ajouter-match' for='poste'>Choisir un nouveau Poste :</label>
             <select class='select-ajouter-joueur' name='poste'>
-                <option value='Gardien'. <?php $participer->getPoste() == 'Gardien' ? 'select' : ''; ?>>Gardien</option>
-                <option value='Ailier gauche'. <?php $participer->getPoste() == 'Ailier gauche' ? 'select' : ''; ?>>Ailier gauche</option>
-                <option value='Arrière gauche'. <?php $participer->getPoste() == 'Arrière gauche' ? 'select' : ''; ?>>Arrière gauche</option>
-                <option value='Demi centre'. <?php $participer->getPoste() == 'Demi centre' ? 'select' : ''; ?>>Demi centre</option>
-                <option value='Arrière droit'. <?php $participer->getPoste() == 'Arrière droit' ? 'select' : ''; ?>>Arrière droit</option>
-                <option value='Ailier droit'. <?php $participer->getPoste() == 'Ailier droit' ? 'select' : ''; ?>>Ailier droit</option>
-                <option value='Pivot'. <?php $participer->getPoste() == 'Pivot' ? 'select' : ''; ?>>Pivot</option>
+            <option value='Gardien' <?php echo ($participer && $participer->getPoste() == 'Gardien') ? 'selected' : ''; ?>>Gardien</option>
+                <option value='Ailier gauche'. <?php echo ($participer && $participer->getPoste() == 'Ailier gauche') ? 'select' : ''; ?>>Ailier gauche</option>
+                <option value='Arrière gauche'. <?php echo ($participer && $participer->getPoste() == 'Arrière gauche') ? 'select' : ''; ?>>Arrière gauche</option>
+                <option value='Demi centre'. <?php echo ($participer && $participer->getPoste() == 'Demi centre') ? 'select' : ''; ?>>Demi centre</option>
+                <option value='Arrière droit'. <?php echo ($participer && $participer->getPoste() == 'Arrière droit') ? 'select' : ''; ?>>Arrière droit</option>
+                <option value='Ailier droit'. <?php echo ($participer && $participer->getPoste() == 'Ailier droit') ? 'select' : ''; ?>>Ailier droit</option>
+                <option value='Pivot'. <?php echo ($participer && $participer->getPoste() == 'Pivot') ? 'select' : ''; ?>>Pivot</option>
             </select>
 
             <input class="input-ajouter-match" type="hidden" name="num_licence" id="num_licence" value=
-            '<?php echo htmlspecialchars($participer->getNum_licence()); ?>' required />
+            '<?php echo htmlspecialchars($licence); ?>' required />
 
             
             <div class='actions-ajouter-match'>

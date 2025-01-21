@@ -21,16 +21,20 @@ if (!isset($_GET['feuille'])) {
     $_GET['feuille'] = "";
 }
 
-// Vérifier si le formulaire a été soumis avec les nouvelles notes
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    // Mettre à jour la note de chaque titulaire
-    foreach ($_SESSION['titulaires'] as &$participer) {
-        // Vérifier si une note a été soumise pour ce joueur
-        if (isset($_GET['note'])) {
+
+
+        if (isset($_GET['note']) && isset($_GET['num_licence'])) {
             $nouvelleNote = htmlspecialchars($_GET['note']);
             $licenceCible = htmlspecialchars($_GET['num_licence']);
 
             foreach ($_SESSION['titulaires'] as &$participer) {
+                if ($participer->getNum_licence() == $licenceCible) {
+                    $participer->setNote($nouvelleNote);
+                    break; // Une fois trouvé, on arrête la boucle
+                }
+            }
+
+            foreach ($_SESSION['remplacants'] as &$participer) {
                 if ($participer->getNum_licence() == $licenceCible) {
                     $participer->setNote($nouvelleNote);
                     break; // Une fois trouvé, on arrête la boucle
@@ -47,28 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                     break; // Une fois trouvé, on arrête la boucle
                 }
             }
-        }
-    }
-    
-    // Mettre à jour la note de chaque remplaçant
-    foreach ($_SESSION['remplacants'] as &$participer) {
-        // Vérifier si une note a été soumise pour ce joueur
-        if (isset($_GET['note'])) {
-            $nouvelleNote = htmlspecialchars($_GET['note']);
-            $licenceCible = htmlspecialchars($_GET['num_licence']);
 
-            foreach ($_SESSION['remplacants'] as &$participer) {
-                if ($participer->getNum_licence() == $licenceCible) {
-                    $participer->setNote($nouvelleNote);
-                    break; // Une fois trouvé, on arrête la boucle
-                }
-            }
-
-        
-        }else if (isset($_GET['poste']) && isset($_GET['num_licence'])) {
-            $nouveauPoste = htmlspecialchars($_GET['poste']);
-            $licenceCible = htmlspecialchars($_GET['num_licence']);
-            
             foreach ($_SESSION['remplacants'] as &$participer) {
                 if ($participer->getNum_licence() == $licenceCible) {
                     $participer->setPoste($nouveauPoste);
@@ -76,9 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 }
             }
         }
-    }
-}
-
 
 
 if (isset($_GET['date_heure'])) {
@@ -142,7 +122,7 @@ if (isset($_GET['licence'])) {
         // Vérifier si le nombre de titulaires est inférieur à 7
         if (count($_SESSION['titulaires']) < 7) {
             $participer = new Participer($licence,$_SESSION['date_heure'],1,null,null);
-            $_SESSION['titulaires'][] = $participer;
+            $_SESSION['titulaires'][] = serialize($participer);
         } else {
             echo "<p>Le nombre de titulaires ne peut pas dépasser 7.</p>";
         }
@@ -177,6 +157,7 @@ if (isset($_GET['licence'])) {
             echo "<p class='error-message'>Il doit y avoir exactement 7 titulaires pour valider la feuille de match.</p>";
         } else {
             $controleurMatch->updateParticipers($_SESSION['titulaires'], $_SESSION['remplacants'], $_SESSION['date_heure']);
+            $_SESSION['titulaires'] = [];
             header('Location: matchsVue.php');
             exit();
         }
@@ -205,24 +186,24 @@ if (isset($_GET['licence'])) {
                     <?php
 
                     // Récupérer les titulaires depuis la session
-                    foreach ($_SESSION['titulaires'] as &$participer) {
-                        if (is_string($participer)) { // Vérifie si l'élément est une chaîne et donc sérialisé
-                            $participer = unserialize($participer);
+                    foreach ($_SESSION['titulaires'] as &$participerTableau) {
+                        if (is_string($participerTableau)) { // Vérifie si l'élément est une chaîne et donc sérialisé
+                            $participerTableau = unserialize($participerTableau);
                         }
-                        $joueur = $controleurJoueur->getJoueur($participer->getNum_licence());
-                        $num_licence = $participer->getNum_licence();
-                        $date_heure = $participer->getDate();
+                        $joueur = $controleurJoueur->getJoueur($participerTableau->getNum_licence());
+                        $num_licence = $participerTableau->getNum_licence();
+                        $date_heure = $participerTableau->getDate();
                         echo "<form method='POST' action='feuilleDeMatchVue.php'>
                                 <tr>
                                     <td>{$joueur->getNom()}</td>
                                     <td>{$joueur->getPrenom()}</td>
-                                    <td>{$participer->getPoste()}</td>
+                                    <td>{$participerTableau->getPoste()}</td>
                                     <td>
                                         <a href='changerDePosteVue.php?date_heure={$date_heure}&num_licence={$num_licence}'>
                                             <button type='button' " . ($matchDansLePasse ? "disabled" : "") . ">Changer de Poste</button>
                                         </a>
                                     </td>
-                                    <td>{$participer->getNote()}</td>
+                                    <td>{$participerTableau->getNote()}</td>
                                     <td>
                                         <a href='changerNoteVue.php?date_heure={$date_heure}&num_licence={$num_licence}'>
                                             <button type='button' ". (!$matchDansLePasse ? "disabled" : "") . ">Évaluer</button>
@@ -277,24 +258,24 @@ if (isset($_GET['licence'])) {
                     }
 
                     // Récupérer les remplaçants depuis la session
-                    foreach ($_SESSION['remplacants'] as &$participer) {
-                        if (is_string($participer)) { // Vérifie si l'élément est une chaîne et donc sérialisé
-                            $participer = unserialize($participer);
+                    foreach ($_SESSION['remplacants'] as &$participerTableau) {
+                        if (is_string($participerTableau)) { // Vérifie si l'élément est une chaîne et donc sérialisé
+                            $participerTableau = unserialize($participerTableau);
                         }
-                        $joueur = $controleurJoueur->getJoueur($participer->getNum_licence());
-                        $num_licence = $participer->getNum_licence();
-                        $date_heure = $participer->getDate();
+                        $joueur = $controleurJoueur->getJoueur($participerTableau->getNum_licence());
+                        $num_licence = $participerTableau->getNum_licence();
+                        $date_heure = $participerTableau->getDate();
                         echo "<form method='POST' action='feuilleDeMatchVue.php'>
                                 <tr>
                                     <td>{$joueur->getNom()}</td>
                                     <td>{$joueur->getPrenom()}</td>
-                                    <td>{$participer->getPoste()}</td>
+                                    <td>{$participerTableau->getPoste()}</td>
                                     <td>
                                         <a href='changerDePosteVue.php?date_heure={$date_heure}&num_licence={$num_licence}'>
                                             <button type='button' " . ($matchDansLePasse ? "disabled" : "") . ">Changer de Poste</button>
                                         </a>
                                     </td>
-                                    <td>{$participer->getNote()}</td>
+                                    <td>{$participerTableau->getNote()}</td>
                                     <td>
                                         <a href='changerNoteVue.php?date_heure={$date_heure}&num_licence={$num_licence}'>
                                             <button type='button' ". (!$matchDansLePasse ? "disabled" : "") . ">Évaluer</button>
