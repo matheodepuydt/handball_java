@@ -58,7 +58,7 @@ class controleurStat{
         $db = connectionBD::getInstance()->getConnection();
 
         // Préparation de la requête
-        $stmt = $db->prepare('SELECT count(*) as total FROM participer where num_licence = :num_licence and titulaire = 1');
+        $stmt = $db->prepare('SELECT count(*) as total FROM participer where num_licence = :num_licence and titulaire = 1 and date_heure < now()');
         $stmt->execute([':num_licence' => $num_licence]);
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -70,7 +70,7 @@ class controleurStat{
         $db = connectionBD::getInstance()->getConnection();
 
         // Préparation de la requête
-        $stmt = $db->prepare('SELECT count(*) as total FROM participer where num_licence = :num_licence and titulaire = 0');
+        $stmt = $db->prepare('SELECT count(*) as total FROM participer where num_licence = :num_licence and titulaire = 0 and date_heure < now()');
         $stmt->execute([':num_licence' => $num_licence]);
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -117,7 +117,8 @@ class controleurStat{
                             where date_heure in (
                                 select date_heure
                                 from participer
-                                where num_licence = :num_licence)');
+                                where num_licence = :num_licence
+                                and date_heure < now())');
         $stmt->execute([':num_licence' => $num_licence]);
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -128,7 +129,7 @@ class controleurStat{
     public function calculPourcentageVictoiresJoueur($num_licence){
         $controleur = new controleurStat();
         $nbVictoires = $controleur->getNbVictoiresJoueur($num_licence);
-        $nbTotal = $controleur->getNbMatchsJoueur($num_licence)+$controleur->getNbVictoiresJoueur($num_licence);
+        $nbTotal = $controleur->getNbMatchsJoueur($num_licence);
         $pourcentageVictoires = ($nbTotal > 0) ? ($nbVictoires / $nbTotal) * 100 : 0;
         return $pourcentageVictoires;
     }
@@ -140,6 +141,7 @@ class controleurStat{
         $stmt = $db->prepare('SELECT poste, COUNT(*) AS nombre_de_participations
                             FROM participer
                             WHERE num_licence = :num_licence
+                            and date_heure < now()
                             GROUP BY poste
                             ORDER BY nombre_de_participations DESC
                             LIMIT 1');
